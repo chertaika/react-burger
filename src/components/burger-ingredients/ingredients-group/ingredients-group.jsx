@@ -1,6 +1,8 @@
 import { forwardRef } from 'react';
 import styles from './ingredients-group.module.css';
 import IngredientsItem from '@components/burger-ingredients/ingredients-item/ingredients-item.jsx';
+import * as PropTypes from 'prop-types';
+import { ingredientPropType } from '@utils/prop-types.js';
 
 const IngredientsGroup = forwardRef(({ type, items }, ref) => {
 	return (
@@ -18,5 +20,10 @@ const IngredientsGroup = forwardRef(({ type, items }, ref) => {
 		</article>
 	);
 });
+
+IngredientsGroup.propTypes = {
+	type: PropTypes.string.isRequired,
+	items: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+};
 
 export default IngredientsGroup;

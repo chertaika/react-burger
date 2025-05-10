@@ -6,7 +6,7 @@ import { ingredientPropType } from '@utils/prop-types.js';
 import IngredientsGroup from '@components/burger-ingredients/ingredients-group/ingredients-group.jsx';
 import { ingredientTypeTranslations } from '@utils/ingredients.js';
 
-export const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = ({ ingredients }) => {
 	const [activeType, setActiveType] = useState(
 		Object.keys(ingredientTypeTranslations)[0]
 	);
@@ -63,3 +63,5 @@ export const BurgerIngredients = ({ ingredients }) => {
 BurgerIngredients.propTypes = {
 	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
+
+export default BurgerIngredients;

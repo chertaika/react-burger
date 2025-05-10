@@ -9,7 +9,7 @@ import {
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = ({ ingredients }) => {
 	const bun = useMemo(
 		() => ingredients.find((item) => item.type === 'bun'),
 		[ingredients]
@@ -75,3 +75,5 @@ export const BurgerConstructor = ({ ingredients }) => {
 BurgerConstructor.propTypes = {
 	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
+
+export default BurgerConstructor;

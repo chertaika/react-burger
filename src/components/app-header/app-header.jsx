@@ -6,7 +6,7 @@ import {
 	Logo,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-export const AppHeader = () => {
+const AppHeader = () => {
 	return (
 		<header className={styles.header}>
 			<nav className={`${styles.menu} p-4`}>
@@ -34,3 +34,5 @@ export const AppHeader = () => {
 		</header>
 	);
 };
+
+export default AppHeader;

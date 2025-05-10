@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './app.module.css';
 import { ingredients } from '@utils/ingredients.js';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients.jsx';
-import { BurgerConstructor } from '@components/burger-contructor/burger-constructor.jsx';
-import { AppHeader } from '@components/app-header/app-header.jsx';
+import BurgerIngredients from '@components/burger-ingredients/burger-ingredients.jsx';
+import BurgerConstructor from '@components/burger-contructor/burger-constructor.jsx';
+import AppHeader from '@components/app-header/app-header.jsx';
 
 export const App = () => {
 	return (
