@@ -4,24 +4,23 @@ import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropType } from '@utils/prop-types.js';
 import IngredientsGroup from '@components/burger-ingredients/ingredients-group/ingredients-group.jsx';
-import { typeTranslations } from '@utils/ingredients.js';
+import { ingredientTypeTranslations } from '@utils/ingredients.js';
 
 export const BurgerIngredients = ({ ingredients }) => {
 	const [activeType, setActiveType] = useState(
-		Object.keys(typeTranslations)[0]
+		Object.keys(ingredientTypeTranslations)[0]
 	);
 
 	const groupRefs = useRef({});
 
 	const groupedIngredients = useMemo(() => {
-		return ingredients.reduce((acc, item) => {
-			const { type } = item;
-			if (!acc[type]) {
-				acc[type] = [];
-			}
-			acc[type].push(item);
-			return acc;
-		}, {});
+		return ingredients.reduce(
+			(acc, item) => {
+				acc[item.type].push(item);
+				return acc;
+			},
+			{ bun: [], sauce: [], main: [] }
+		);
 	}, [ingredients]);
 
 	const handleScrollToAnchor = (type) => {
@@ -36,13 +35,13 @@ export const BurgerIngredients = ({ ingredients }) => {
 		<section className={styles.burger_ingredients}>
 			<nav>
 				<ul className={styles.menu}>
-					{Object.keys(typeTranslations).map((type) => (
+					{Object.keys(ingredientTypeTranslations).map((type) => (
 						<Tab
 							key={type}
 							value={type}
 							active={type === activeType}
 							onClick={() => handleScrollToAnchor(type)}>
-							{typeTranslations[type]}
+							{ingredientTypeTranslations[type]}
 						</Tab>
 					))}
 				</ul>
@@ -51,7 +50,7 @@ export const BurgerIngredients = ({ ingredients }) => {
 				{Object.keys(groupedIngredients).map((type) => (
 					<IngredientsGroup
 						key={type}
-						type={typeTranslations[type]}
+						type={ingredientTypeTranslations[type]}
 						items={groupedIngredients[type]}
 						ref={(element) => (groupRefs.current[type] = element)}
 					/>
