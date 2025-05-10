@@ -16,7 +16,7 @@ export const AppHeader = () => {
 						<BurgerIcon type='primary' />
 						<p className='text text_type_main-default ml-2'>Конструктор</p>
 					</a>
-					<a href='/feed' className={`${styles.link} ml-10`}>
+					<a href='/feed' className={styles.link}>
 						<ListIcon type='secondary' />
 						<p className='text text_type_main-default ml-2'>Лента заказов</p>
 					</a>
@@ -24,12 +24,12 @@ export const AppHeader = () => {
 				<div className={styles.logo}>
 					<Logo />
 				</div>
-				<a
-					href='/profile'
-					className={`${styles.link} ${styles.link_position_last}`}>
-					<ProfileIcon type='secondary' />
-					<p className='text text_type_main-default ml-2'>Личный кабинет</p>
-				</a>
+				<div className={styles.link_position_last}>
+					<a href='/profile' className={styles.link}>
+						<ProfileIcon type='secondary' />
+						<p className='text text_type_main-default ml-2'>Личный кабинет</p>
+					</a>
+				</div>
 			</nav>
 		</header>
 	);

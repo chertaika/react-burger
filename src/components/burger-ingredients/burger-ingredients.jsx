@@ -38,6 +38,7 @@ export const BurgerIngredients = ({ ingredients }) => {
 				<ul className={styles.menu}>
 					{Object.keys(typeTranslations).map((type) => (
 						<Tab
+							key={type}
 							value={type}
 							active={type === activeType}
 							onClick={() => handleScrollToAnchor(type)}>

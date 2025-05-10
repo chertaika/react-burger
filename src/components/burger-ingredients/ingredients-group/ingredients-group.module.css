@@ -1,7 +1,6 @@
 .ingredients_group {
 	display: flex;
 	flex-direction: column;
-	gap: calc(var(--offset-base-size) * 6);
 }
 
 .ingredients_list {
@@ -12,10 +11,4 @@
 	padding: calc(var(--offset-base-size) * 6) calc(var(--offset-base-size) * 2)
 		calc(var(--offset-base-size) * 10) calc(var(--offset-base-size) * 4);
 	list-style-type: none;
-}
-
-.title {
-	margin: 0;
-	font-size: 24px;
-	line-height: 1.25;
 }
