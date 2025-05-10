@@ -1,27 +1,61 @@
-import React from 'react';
+import { useMemo, useRef, useState } from 'react';
 import styles from './burger-ingredients.module.css';
 import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropType } from '@utils/prop-types.js';
+import IngredientsGroup from '@components/burger-ingredients/ingredients-group/ingredients-group.jsx';
+import { typeTranslations } from '@utils/ingredients.js';
 
 export const BurgerIngredients = ({ ingredients }) => {
-	console.log(ingredients);
+	const [activeType, setActiveType] = useState(
+		Object.keys(typeTranslations)[0]
+	);
+
+	const groupRefs = useRef({});
+
+	const groupedIngredients = useMemo(() => {
+		return ingredients.reduce((acc, item) => {
+			const { type } = item;
+			if (!acc[type]) {
+				acc[type] = [];
+			}
+			acc[type].push(item);
+			return acc;
+		}, {});
+	}, [ingredients]);
+
+	const handleScrollToAnchor = (type) => {
+		const element = groupRefs.current[type];
+		if (element) {
+			setActiveType(type);
+			element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+	};
 
 	return (
 		<section className={styles.burger_ingredients}>
 			<nav>
 				<ul className={styles.menu}>
-					<Tab value='bun' active={true} onClick={() => {}}>
-						Булки
-					</Tab>
-					<Tab value='main' active={false} onClick={() => {}}>
-						Начинки
-					</Tab>
-					<Tab value='sauce' active={false} onClick={() => {}}>
-						Соусы
-					</Tab>
+					{Object.keys(typeTranslations).map((type) => (
+						<Tab
+							value={type}
+							active={type === activeType}
+							onClick={() => handleScrollToAnchor(type)}>
+							{typeTranslations[type]}
+						</Tab>
+					))}
 				</ul>
 			</nav>
+			<div className={`${styles.ingredients_list} custom-scroll`}>
+				{Object.keys(groupedIngredients).map((type) => (
+					<IngredientsGroup
+						key={type}
+						type={typeTranslations[type]}
+						items={groupedIngredients[type]}
+						ref={(element) => (groupRefs.current[type] = element)}
+					/>
+				))}
+			</div>
 		</section>
 	);
 };
