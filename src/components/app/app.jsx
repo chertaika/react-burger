@@ -24,6 +24,10 @@ export const App = () => {
 		}
 	};
 
+	const handleCloseErrorBanner = () => {
+		setErrorMessage('');
+	};
+
 	useEffect(() => {
 		getIngredients();
 	}, []);
@@ -33,10 +37,7 @@ export const App = () => {
 			{isLoading ? (
 				<Preloader />
 			) : errorMessage.length > 0 ? (
-				<ErrorBanner
-					text={errorMessage}
-					clearError={() => setErrorMessage('')}
-				/>
+				<ErrorBanner text={errorMessage} clearError={handleCloseErrorBanner} />
 			) : (
 				ingredients.length > 0 && (
 					<>
