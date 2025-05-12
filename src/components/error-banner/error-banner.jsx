@@ -1,5 +1,6 @@
 import styles from './error-banner.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import * as PropTypes from 'prop-types';
 
 const ErrorBanner = ({ text, clearError }) => {
 	return (
@@ -12,6 +13,11 @@ const ErrorBanner = ({ text, clearError }) => {
 			/>
 		</article>
 	);
+};
+
+ErrorBanner.propTypes = {
+	text: PropTypes.string.isRequired,
+	clearError: PropTypes.func.isRequired,
 };
 
 export default ErrorBanner;

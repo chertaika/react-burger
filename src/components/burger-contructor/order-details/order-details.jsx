@@ -1,6 +1,7 @@
 import Modal from '@components/modal/modal.jsx';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-details.module.css';
+import * as PropTypes from 'prop-types';
 
 const OrderDetails = ({ onClose, orderNumber }) => {
 	return (
@@ -23,6 +24,11 @@ const OrderDetails = ({ onClose, orderNumber }) => {
 			</span>
 		</Modal>
 	);
+};
+
+OrderDetails.propTypes = {
+	onClose: PropTypes.func.isRequired,
+	orderNumber: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;

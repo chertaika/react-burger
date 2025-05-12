@@ -3,6 +3,8 @@ import styles from './ingredient-details.module.css';
 import { useState } from 'react';
 import Preloader from '@components/preloader/preloader.jsx';
 import imageError from '@images/no-photo.svg';
+import * as PropTypes from 'prop-types';
+import { ingredientPropType } from '@utils/prop-types.js';
 
 const IngredientDetails = ({ onClose, ingredient }) => {
 	const [isImageError, setIsImageError] = useState(false);
@@ -66,6 +68,11 @@ const IngredientDetails = ({ onClose, ingredient }) => {
 			</div>
 		</Modal>
 	);
+};
+
+IngredientDetails.propTypes = {
+	onClose: PropTypes.func.isRequired,
+	ingredient: ingredientPropType.isRequired,
 };
 
 export default IngredientDetails;
