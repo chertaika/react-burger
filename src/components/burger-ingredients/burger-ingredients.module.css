@@ -3,7 +3,7 @@
 	flex-direction: column;
 	gap: calc(var(--offset-base-size) * 10);
 	max-width: 600px;
-	color: var(--text-primary-color);
+	color: var(--text-primary-light-color);
 	font-family: 'Jet Brains Mono', serif;
 }
 

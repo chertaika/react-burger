@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import styles from './burger-constructor.module.css';
 import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
@@ -8,8 +8,11 @@ import {
 	CurrencyIcon,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import OrderDetails from '@components/burger-contructor/order-details/order-details.jsx';
 
 const BurgerConstructor = ({ ingredients }) => {
+	const [isOpenModal, setIsOpenModal] = useState(false);
+
 	const bun = useMemo(
 		() => ingredients.find((item) => item.type === 'bun'),
 		[ingredients]
@@ -26,6 +29,14 @@ const BurgerConstructor = ({ ingredients }) => {
 
 		return nonBunPrice + (bun ? bun.price * 2 : 0);
 	}, [otherIngredients, bun]);
+
+	const handleSendOrder = () => {
+		setIsOpenModal(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsOpenModal(false);
+	};
 
 	return (
 		<section className={`${styles.burger_constructor} ml-4`}>
@@ -64,10 +75,20 @@ const BurgerConstructor = ({ ingredients }) => {
 					<span className={'text text_type_digits-medium'}>{totalPrice}</span>
 					<CurrencyIcon type='primary' />
 				</div>
-				<Button htmlType='button' type='primary' size='large'>
+				<Button
+					htmlType='button'
+					type='primary'
+					size='large'
+					onClick={handleSendOrder}>
 					Оформить заказ
 				</Button>
 			</div>
+			{isOpenModal && (
+				<OrderDetails
+					onClose={handleCloseModal}
+					orderNumber={Math.floor(100000 + Math.random() * 900000)}
+				/>
+			)}
 		</section>
 	);
 };
