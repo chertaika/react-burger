@@ -9,6 +9,7 @@ import {
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '@components/burger-contructor/order-details/order-details.jsx';
+import Modal from '@components/modal/modal.jsx';
 
 const BurgerConstructor = ({ ingredients }) => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
@@ -84,10 +85,11 @@ const BurgerConstructor = ({ ingredients }) => {
 				</Button>
 			</div>
 			{isOpenModal && (
-				<OrderDetails
-					onClose={handleCloseModal}
-					orderNumber={Math.floor(100000 + Math.random() * 900000)}
-				/>
+				<Modal onClose={handleCloseModal}>
+					<OrderDetails
+						orderNumber={Math.floor(100000 + Math.random() * 900000)}
+					/>
+				</Modal>
 			)}
 		</section>
 	);

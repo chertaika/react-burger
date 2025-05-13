@@ -7,6 +7,7 @@ import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
 import { useState } from 'react';
 import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details.jsx';
+import Modal from '@components/modal/modal.jsx';
 
 const IngredientsItem = ({ ingredient, count }) => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
@@ -38,7 +39,9 @@ const IngredientsItem = ({ ingredient, count }) => {
 				</p>
 			</li>
 			{isOpenModal && (
-				<IngredientDetails ingredient={ingredient} onClose={handleCloseModal} />
+				<Modal title={'Детали ингредиента'} onClose={handleCloseModal}>
+					<IngredientDetails ingredient={ingredient} />
+				</Modal>
 			)}
 		</>
 	);

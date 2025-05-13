@@ -1,11 +1,10 @@
-import Modal from '@components/modal/modal.jsx';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-details.module.css';
 import * as PropTypes from 'prop-types';
 
-const OrderDetails = ({ onClose, orderNumber }) => {
+const OrderDetails = ({ orderNumber }) => {
 	return (
-		<Modal onClose={onClose}>
+		<>
 			<span className={`${styles.title} text text_type_digits-large mt-4 mb-8`}>
 				{orderNumber}
 			</span>
@@ -22,12 +21,11 @@ const OrderDetails = ({ onClose, orderNumber }) => {
 				}>
 				Дождитесь готовности на орбитальной станции
 			</span>
-		</Modal>
+		</>
 	);
 };
 
 OrderDetails.propTypes = {
-	onClose: PropTypes.func.isRequired,
 	orderNumber: PropTypes.number.isRequired,
 };
 
