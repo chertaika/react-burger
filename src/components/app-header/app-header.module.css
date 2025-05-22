@@ -5,7 +5,7 @@
 .menu {
 	display: flex;
 	align-items: center;
-	max-width: 1240px;
+	max-width: 1280px;
 	height: 56px;
 	margin: 0 auto;
 }
@@ -13,16 +13,19 @@
 .menu_part_left {
 	display: flex;
 	flex-basis: 35%;
+	gap: calc(var(--offset-base-size) * 2);
 }
 
 .link {
 	display: flex;
+	padding: calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 5);
 	color: var(--text-inactive-color);
 	text-decoration: none;
+	border-radius: 40px;
 }
 
 .link_active {
-	color: var(--text-primary-color);
+	color: var(--text-primary-light-color);
 }
 
 .link_position_last {

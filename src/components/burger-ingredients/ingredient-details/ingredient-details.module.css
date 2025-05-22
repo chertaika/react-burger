@@ -1,0 +1,59 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 520px;
+}
+
+.image_container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	max-width: 480px;
+	aspect-ratio: 2/1;
+}
+
+.image_loader {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--background);
+}
+
+.image {
+	display: block;
+	width: 100%;
+	aspect-ratio: 2/1;
+	object-fit: contain;
+	object-position: center;
+}
+
+.no_image {
+	width: 150px;
+	aspect-ratio: 1/1;
+}
+
+.title {
+	text-align: center;
+}
+
+.nutrition {
+	display: grid;
+	grid-template-columns: minmax(auto, 125px) repeat(3, minmax(auto, 112px));
+	gap: calc(var(--offset-base-size) * 5);
+	margin: 0;
+	padding: 0;
+}
+
+.nutrition_item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--offset-base-size) * 2);
+	color: var(--text-inactive-color);
+}

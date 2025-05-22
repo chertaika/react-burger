@@ -212,3 +212,9 @@ export const ingredients = [
 		__v: 0,
 	},
 ];
+
+export const ingredientTypeTranslations = {
+	bun: 'Булки',
+	sauce: 'Соусы',
+	main: 'Начинки',
+};

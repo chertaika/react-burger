@@ -2,11 +2,11 @@
 	display: flex;
 	flex-direction: column;
 	height: 100vh;
-	color: var(--text-primary-color);
 	background-color: var(--background-alt);
 }
 
 .title {
+	align-items: center;
 	align-self: center;
 	width: 100%;
 	max-width: 1260px;
@@ -15,6 +15,7 @@
 .main {
 	display: flex;
 	justify-content: space-between;
+	gap: calc(var(--offset-base-size) * 10);
 	width: 1240px;
 	height: 100%;
 	margin: 0 auto;

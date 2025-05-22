@@ -1,0 +1,24 @@
+.ingredient {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--offset-base-size) * 2);
+	cursor: pointer;
+}
+
+.image {
+	display: block;
+}
+
+.price {
+	display: flex;
+	gap: calc(var(--offset-base-size) * 2);
+	font-size: 20px;
+	line-height: 1.2;
+}
+
+.title {
+	min-height: calc(2 * 1.5em);
+	text-align: center;
+}
