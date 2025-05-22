@@ -69,6 +69,7 @@ const BurgerConstructor = ({ ingredients }) => {
 					text={`${bun.name} (низ)`}
 					price={bun.price}
 					thumbnail={bun.image}
+					extraClass={styles.bottom_ingredient}
 				/>
 			</div>
 			<div className={`${styles.total} mt-10 ml-4 mr-4`}>
