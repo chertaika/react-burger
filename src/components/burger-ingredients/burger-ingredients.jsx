@@ -42,6 +42,27 @@ const BurgerIngredients = ({ ingredients }) => {
 		dispatch(clearCurrentIngredient());
 	}, [dispatch]);
 
+	const handleScrollContainer = (e) => {
+		const containerTop = e.target.getBoundingClientRect().top;
+		const refs = groupRefs.current;
+		let closestType = null;
+		let minDistance = Infinity;
+
+		for (const type of Object.keys(refs)) {
+			const elementTop = refs[type].getBoundingClientRect().top;
+			const distance = Math.abs(elementTop - containerTop);
+
+			if (distance < minDistance) {
+				minDistance = distance;
+				closestType = type;
+			}
+		}
+
+		if (closestType && closestType !== activeType) {
+			setActiveType(closestType);
+		}
+	};
+
 	return (
 		<section className={styles.burger_ingredients}>
 			<nav>
@@ -57,7 +78,9 @@ const BurgerIngredients = ({ ingredients }) => {
 					))}
 				</ul>
 			</nav>
-			<div className={`${styles.ingredients_list} custom-scroll`}>
+			<div
+				className={`${styles.ingredients_list} custom-scroll`}
+				onScroll={handleScrollContainer}>
 				{Object.keys(groupedIngredients).map((type) => (
 					<IngredientsGroup
 						key={type}
