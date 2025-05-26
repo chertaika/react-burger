@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react';
 import styles from './burger-constructor.module.css';
 import * as PropTypes from 'prop-types';
-import { ingredientPropType } from '@utils/prop-types.js';
+import { ingredientPropType } from '@utils/prop-types';
 import {
 	Button,
 	ConstructorElement,
 	CurrencyIcon,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import OrderDetails from '@components/burger-contructor/order-details/order-details.jsx';
-import Modal from '@components/modal/modal.jsx';
+import OrderDetails from '@components/burger-constructor/order-details/order-details';
+import Modal from '@components/modal/modal';
 
 const BurgerConstructor = ({ ingredients }) => {
 	const [isOpenModal, setIsOpenModal] = useState(false);

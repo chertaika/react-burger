@@ -6,18 +6,20 @@ const ErrorBanner = ({ text, clearError }) => {
 	return (
 		<article className={styles.banner}>
 			<span className={`${styles.text} text text_type_main-small`}>{text}</span>
-			<CloseIcon
-				type='primary'
-				onClick={clearError}
-				className={styles.button}
-			/>
+			{clearError && (
+				<CloseIcon
+					type='primary'
+					onClick={clearError}
+					className={styles.button}
+				/>
+			)}
 		</article>
 	);
 };
 
 ErrorBanner.propTypes = {
 	text: PropTypes.string.isRequired,
-	clearError: PropTypes.func.isRequired,
+	clearError: PropTypes.func,
 };
 
 export default ErrorBanner;
