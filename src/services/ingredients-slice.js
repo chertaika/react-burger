@@ -20,6 +20,11 @@ const ingredientsSlice = createSlice({
 		isLoading: false,
 		errorMessage: null,
 	},
+	selectors: {
+		getAllIngredients: (state) => state.ingredients,
+		getIngredientsLoading: (state) => state.loading,
+		getIngredientsError: (state) => state.error,
+	},
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
@@ -38,4 +43,6 @@ const ingredientsSlice = createSlice({
 	},
 });
 
+export const { getAllIngredients, getIngredientsLoading, getIngredientsError } =
+	ingredientsSlice.selectors;
 export default ingredientsSlice.reducer;

@@ -8,13 +8,18 @@ import ErrorBanner from '@components/error-banner/error-banner';
 import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-import { getIngredients } from '@store/ingredients-slice';
+import {
+	getAllIngredients,
+	getIngredients,
+	getIngredientsError,
+	getIngredientsLoading,
+} from '@store/ingredients-slice';
 
 export const App = () => {
 	const dispatch = useDispatch();
-	const { ingredients, isLoading, errorMessage } = useSelector(
-		(store) => store.ingredients
-	);
+	const ingredients = useSelector(getAllIngredients);
+	const isLoading = useSelector(getIngredientsLoading);
+	const errorMessage = useSelector(getIngredientsError);
 
 	useEffect(() => {
 		dispatch(getIngredients());
@@ -27,7 +32,7 @@ export const App = () => {
 			) : errorMessage ? (
 				<ErrorBanner text={errorMessage} />
 			) : (
-				ingredients.length > 0 && (
+				ingredients?.length > 0 && (
 					<>
 						<AppHeader />
 						<h1
