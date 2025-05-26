@@ -7,9 +7,18 @@ import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
 import { useDispatch } from 'react-redux';
 import { setCurrentIngredient } from '@store/ingredient-details-slice';
+import { useDrag } from 'react-dnd';
 
 const IngredientsItem = ({ ingredient, count }) => {
 	const dispatch = useDispatch();
+
+	const [{ isDragging }, dragRef] = useDrag(() => ({
+		type: 'ingredient',
+		item: { ingredient },
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
+	}));
 
 	const handleClickIngredient = () => {
 		dispatch(setCurrentIngredient(ingredient));
@@ -18,7 +27,10 @@ const IngredientsItem = ({ ingredient, count }) => {
 	return (
 		<>
 			{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-			<li className={styles.ingredient} onClick={handleClickIngredient}>
+			<li
+				className={`${styles.ingredient} ${isDragging ? styles.dragging : ''}`}
+				onClick={handleClickIngredient}
+				ref={dragRef}>
 				{count > 0 && <Counter count={count} size={'default'} />}
 				<img
 					className={`${styles.image} pr-4 pl-4`}

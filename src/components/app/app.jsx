@@ -6,6 +6,8 @@ import AppHeader from '@components/app-header/app-header';
 import Preloader from '@components/preloader/preloader';
 import ErrorBanner from '@components/error-banner/error-banner';
 import { useDispatch, useSelector } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 import { getIngredients } from '@store/ingredients-slice';
 
 export const App = () => {
@@ -29,13 +31,15 @@ export const App = () => {
 					<>
 						<AppHeader />
 						<h1
-							className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
+							className={`${styles.title} text text_type_main-large mt-10 pl-5`}>
 							Соберите бургер
 						</h1>
-						<main className={`${styles.main} pl-5 pr-5 mb-10`}>
-							<BurgerIngredients ingredients={ingredients} />
-							<BurgerConstructor ingredients={ingredients} />
-						</main>
+						<DndProvider backend={HTML5Backend}>
+							<main className={`${styles.main} pl-5 pr-5 mb-10`}>
+								<BurgerIngredients ingredients={ingredients} />
+								<BurgerConstructor ingredients={ingredients} />
+							</main>
+						</DndProvider>
 					</>
 				)
 			)}

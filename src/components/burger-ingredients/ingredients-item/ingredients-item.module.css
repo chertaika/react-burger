@@ -4,7 +4,14 @@
 	flex-direction: column;
 	align-items: center;
 	gap: calc(var(--offset-base-size) * 2);
+	background-color: var(--background-alt);
+	border-radius: calc(var(--offset-base-size) * 6);
 	cursor: pointer;
+	transition: 0.2s;
+}
+
+.dragging {
+	opacity: 0.5;
 }
 
 .image {

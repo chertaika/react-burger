@@ -64,7 +64,7 @@ const BurgerIngredients = ({ ingredients }) => {
 	};
 
 	return (
-		<section className={styles.burger_ingredients}>
+		<section className={`${styles.burger_ingredients} mt-5`}>
 			<nav>
 				<ul className={styles.menu}>
 					{Object.keys(ingredientTypeTranslations).map((type) => (
