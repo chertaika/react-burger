@@ -41,8 +41,8 @@ export const App = () => {
 						</h1>
 						<DndProvider backend={HTML5Backend}>
 							<main className={`${styles.main} pl-5 pr-5 mb-10`}>
-								<BurgerIngredients ingredients={ingredients} />
-								<BurgerConstructor ingredients={ingredients} />
+								<BurgerIngredients />
+								<BurgerConstructor />
 							</main>
 						</DndProvider>
 					</>

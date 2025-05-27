@@ -26,6 +26,7 @@ const IngredientsGroup = forwardRef(
 IngredientsGroup.propTypes = {
 	type: PropTypes.string.isRequired,
 	items: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+	ingredientsCount: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default IngredientsGroup;

@@ -1,8 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import styles from './burger-ingredients.module.css';
-import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '@utils/prop-types.js';
 import IngredientsGroup from '@components/burger-ingredients/ingredients-group/ingredients-group.jsx';
 import { ingredientTypeTranslations } from '@utils/ingredients.js';
 import Modal from '@components/modal/modal';
@@ -13,11 +11,13 @@ import {
 	getIngredientDetails,
 } from '@store/ingredient-details-slice';
 import { getIngredientsCount } from '@store/burger-constructor-slice';
+import { getAllIngredients } from '@store/ingredients-slice';
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = () => {
 	const dispatch = useDispatch();
 	const currentIngredient = useSelector(getIngredientDetails);
 	const ingredientsCount = useSelector(getIngredientsCount);
+	const ingredients = useSelector(getAllIngredients);
 
 	const [activeType, setActiveType] = useState(
 		Object.keys(ingredientTypeTranslations)[0]
@@ -103,10 +103,6 @@ const BurgerIngredients = ({ ingredients }) => {
 			)}
 		</section>
 	);
-};
-
-BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
 
 export default BurgerIngredients;

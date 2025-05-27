@@ -49,18 +49,6 @@
 	border-radius: calc(var(--offset-base-size) * 10);
 }
 
-.total {
-	display: flex;
-	justify-content: flex-end;
-	gap: calc(var(--offset-base-size) * 10);
-}
-
-.price {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--offset-base-size) * 2);
-}
-
 .bottom_ingredient img {
 	transform: rotateX(180deg);
 }

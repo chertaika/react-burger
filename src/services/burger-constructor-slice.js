@@ -45,7 +45,7 @@ export const getIngredientsCount = createSelector(
 		const counts = {};
 
 		if (bun) {
-			counts[bun._id] = 1;
+			counts[bun._id] = 2;
 		}
 
 		fillings.forEach((item) => {
@@ -53,6 +53,26 @@ export const getIngredientsCount = createSelector(
 		});
 
 		return counts;
+	}
+);
+
+export const getTotalPrice = createSelector(
+	[
+		(state) => state.burgerConstructor.bun,
+		(state) => state.burgerConstructor.fillings,
+	],
+	(bun, fillings) => {
+		let totalPrice = 0;
+
+		if (bun) {
+			totalPrice += bun.price * 2;
+		}
+
+		fillings.forEach((filling) => {
+			totalPrice += filling.price;
+		});
+
+		return totalPrice;
 	}
 );
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import getInitialData from '@utils/api';
+import { getInitialData } from '@utils/api';
 
 export const getIngredients = createAsyncThunk(
 	'ingredients/getIngredients',
@@ -23,7 +23,7 @@ const ingredientsSlice = createSlice({
 	selectors: {
 		getAllIngredients: (state) => state.ingredients,
 		getIngredientsLoading: (state) => state.loading,
-		getIngredientsError: (state) => state.error,
+		getIngredientsError: (state) => state.errorMessage,
 	},
 	reducers: {},
 	extraReducers: (builder) => {

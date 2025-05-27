@@ -1,14 +1,5 @@
-import { useMemo, useState } from 'react';
 import styles from './burger-constructor.module.css';
-import * as PropTypes from 'prop-types';
-import { ingredientPropType } from '@utils/prop-types';
-import {
-	Button,
-	ConstructorElement,
-	CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import OrderDetails from '@components/burger-constructor/order-details/order-details';
-import Modal from '@components/modal/modal';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -20,15 +11,14 @@ import {
 import noBunImage from '@images/no-bun.svg';
 import BurgerDraggedItem from '@components/burger-constructor/burger-dragged-item/burger-dragged-item';
 import { dragTypes } from '@utils/constants';
+import OrderCheckout from '@components/burger-constructor/order-checkout/order-checkout';
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = () => {
 	const dispatch = useDispatch();
 	const fillings = useSelector(getFillings);
 	const bun = useSelector(getBun);
 
 	const isEmpty = !bun && fillings.length === 0;
-
-	const [isOpenModal, setIsOpenModal] = useState(false);
 
 	const [{ isHover }, dropTarget] = useDrop({
 		accept: dragTypes.INGREDIENT,
@@ -41,27 +31,6 @@ const BurgerConstructor = ({ ingredients }) => {
 			isHover: monitor.isOver(),
 		}),
 	});
-
-	const otherIngredients = useMemo(
-		() => ingredients.filter((item) => item.type !== 'bun'),
-		[ingredients]
-	);
-	const totalPrice = useMemo(() => {
-		const nonBunPrice = otherIngredients.reduce(
-			(sum, item) => sum + item.price,
-			0
-		);
-
-		return nonBunPrice + (bun ? bun.price * 2 : 0);
-	}, [otherIngredients, bun]);
-
-	const handleSendOrder = () => {
-		setIsOpenModal(true);
-	};
-
-	const handleCloseModal = () => {
-		setIsOpenModal(false);
-	};
 
 	return (
 		<section className={`${styles.burger_constructor} ml-4 mt-3`}>
@@ -113,33 +82,9 @@ const BurgerConstructor = ({ ingredients }) => {
 					</>
 				)}
 			</div>
-			<div className={`${styles.total} mt-8 ml-4 mr-4`}>
-				<div className={styles.price}>
-					<span className={'text text_type_digits-medium'}>{totalPrice}</span>
-					<CurrencyIcon type='primary' />
-				</div>
-				<Button
-					htmlType='button'
-					type='primary'
-					size='large'
-					onClick={handleSendOrder}
-					disabled={isEmpty}>
-					Оформить заказ
-				</Button>
-			</div>
-			{isOpenModal && (
-				<Modal onClose={handleCloseModal}>
-					<OrderDetails
-						orderNumber={Math.floor(100000 + Math.random() * 900000)}
-					/>
-				</Modal>
-			)}
+			<OrderCheckout isDisabledButton={!bun || fillings?.length === 0} />
 		</section>
 	);
-};
-
-BurgerConstructor.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
 
 export default BurgerConstructor;
