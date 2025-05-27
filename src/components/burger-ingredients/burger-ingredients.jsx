@@ -8,11 +8,16 @@ import { ingredientTypeTranslations } from '@utils/ingredients.js';
 import Modal from '@components/modal/modal';
 import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearCurrentIngredient } from '@store/ingredient-details-slice';
+import {
+	clearCurrentIngredient,
+	getIngredientDetails,
+} from '@store/ingredient-details-slice';
+import { getIngredientsCount } from '@store/burger-constructor-slice';
 
 const BurgerIngredients = ({ ingredients }) => {
 	const dispatch = useDispatch();
-	const { currentIngredient } = useSelector((store) => store.ingredientDetails);
+	const currentIngredient = useSelector(getIngredientDetails);
+	const ingredientsCount = useSelector(getIngredientsCount);
 
 	const [activeType, setActiveType] = useState(
 		Object.keys(ingredientTypeTranslations)[0]
@@ -87,6 +92,7 @@ const BurgerIngredients = ({ ingredients }) => {
 						type={ingredientTypeTranslations[type]}
 						items={groupedIngredients[type]}
 						ref={(element) => (groupRefs.current[type] = element)}
+						ingredientsCount={ingredientsCount}
 					/>
 				))}
 			</div>

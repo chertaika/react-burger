@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 const burgerConstructorSlice = createSlice({
 	name: 'burgerConstructor',
@@ -33,6 +33,26 @@ const burgerConstructorSlice = createSlice({
 		},
 	},
 });
+
+export const getIngredientsCount = createSelector(
+	[
+		(state) => state.burgerConstructor.bun,
+		(state) => state.burgerConstructor.fillings,
+	],
+	(bun, fillings) => {
+		const counts = {};
+
+		if (bun) {
+			counts[bun._id] = 1;
+		}
+
+		fillings.forEach((item) => {
+			counts[item._id] = (counts[item._id] || 0) + 1;
+		});
+
+		return counts;
+	}
+);
 
 export const {
 	addBun,

@@ -87,7 +87,7 @@ const BurgerConstructor = ({ ingredients }) => {
 							<ConstructorElement
 								type='top'
 								isLocked={true}
-								text={bun ? `${bun?.name} (верх)` : 'Добавь булку'}
+								text={bun ? `${bun?.name} (верх)` : 'Добавь булку 🥯'}
 								price={bun?.price}
 								thumbnail={bun ? bun?.image : noBunImage}
 							/>
@@ -108,7 +108,7 @@ const BurgerConstructor = ({ ingredients }) => {
 							) : (
 								<p
 									className={`${styles.placeholder} ml-8 mr-4 text_type_main-default`}>
-									Перетащи начинку сюда
+									Добавь начинку 🥓 🧀
 								</p>
 							)}
 						</div>
@@ -116,7 +116,7 @@ const BurgerConstructor = ({ ingredients }) => {
 							<ConstructorElement
 								type='bottom'
 								isLocked={true}
-								text={bun ? `${bun?.name} (низ)` : 'Добавь булку'}
+								text={bun ? `${bun?.name} (низ)` : 'Добавь булку 🥯'}
 								price={bun?.price}
 								thumbnail={bun ? bun?.image : noBunImage}
 								{...(bun && { extraClass: styles.bottom_ingredient })}

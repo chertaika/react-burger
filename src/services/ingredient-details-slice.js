@@ -5,6 +5,9 @@ const ingredientDetailsSlice = createSlice({
 	initialState: {
 		currentIngredient: null,
 	},
+	selectors: {
+		getIngredientDetails: (state) => state.currentIngredient,
+	},
 	reducers: {
 		setCurrentIngredient(state, action) {
 			state.currentIngredient = action.payload;
@@ -17,4 +20,5 @@ const ingredientDetailsSlice = createSlice({
 
 export const { setCurrentIngredient, clearCurrentIngredient } =
 	ingredientDetailsSlice.actions;
+export const { getIngredientDetails } = ingredientDetailsSlice.selectors;
 export default ingredientDetailsSlice.reducer;

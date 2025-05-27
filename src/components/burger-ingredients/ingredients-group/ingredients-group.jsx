@@ -4,22 +4,24 @@ import IngredientsItem from '@components/burger-ingredients/ingredients-item/ing
 import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
 
-const IngredientsGroup = forwardRef(({ type, items }, ref) => {
-	return (
-		<article className={styles.ingredients_group} ref={ref}>
-			<h2 className={'text text_type_main-medium'}>{type}</h2>
-			<ul className={styles.ingredients_list}>
-				{items.map((item, i) => (
-					<IngredientsItem
-						key={item._id}
-						ingredient={item}
-						count={i === 0 ? 1 : 0}
-					/>
-				))}
-			</ul>
-		</article>
-	);
-});
+const IngredientsGroup = forwardRef(
+	({ type, items, ingredientsCount }, ref) => {
+		return (
+			<article className={styles.ingredients_group} ref={ref}>
+				<h2 className={'text text_type_main-medium'}>{type}</h2>
+				<ul className={styles.ingredients_list}>
+					{items.map((item) => (
+						<IngredientsItem
+							key={item._id}
+							ingredient={item}
+							count={ingredientsCount[item._id] || 0}
+						/>
+					))}
+				</ul>
+			</article>
+		);
+	}
+);
 
 IngredientsGroup.propTypes = {
 	type: PropTypes.string.isRequired,
