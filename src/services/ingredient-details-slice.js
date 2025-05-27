@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+	currentIngredient: null,
+};
+
 const ingredientDetailsSlice = createSlice({
 	name: 'ingredientDetails',
-	initialState: {
-		currentIngredient: null,
-	},
+	initialState: initialState,
 	selectors: {
 		getIngredientDetails: (state) => state.currentIngredient,
 	},
@@ -13,7 +15,7 @@ const ingredientDetailsSlice = createSlice({
 			state.currentIngredient = action.payload;
 		},
 		clearCurrentIngredient(state) {
-			state.currentIngredient = null;
+			state.currentIngredient = initialState.currentIngredient;
 		},
 	},
 });

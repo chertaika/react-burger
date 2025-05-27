@@ -13,13 +13,15 @@ export const getIngredients = createAsyncThunk(
 	}
 );
 
+const initialState = {
+	ingredients: [],
+	isLoading: false,
+	errorMessage: null,
+};
+
 const ingredientsSlice = createSlice({
 	name: 'ingredients',
-	initialState: {
-		ingredients: [],
-		isLoading: false,
-		errorMessage: null,
-	},
+	initialState: initialState,
 	selectors: {
 		getAllIngredients: (state) => state.ingredients,
 		getIngredientsLoading: (state) => state.loading,
@@ -37,6 +39,7 @@ const ingredientsSlice = createSlice({
 				state.ingredients = action.payload;
 			})
 			.addCase(getIngredients.rejected, (state, action) => {
+				state.ingredients = initialState.ingredients;
 				state.isLoading = false;
 				state.errorMessage = action.payload;
 			});

@@ -1,11 +1,13 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+	bun: null,
+	fillings: [],
+};
+
 const burgerConstructorSlice = createSlice({
 	name: 'burgerConstructor',
-	initialState: {
-		bun: null,
-		fillings: [],
-	},
+	initialState: initialState,
 	selectors: {
 		getBun: (state) => state.bun,
 		getFillings: (state) => state.fillings,
@@ -29,10 +31,7 @@ const burgerConstructorSlice = createSlice({
 			newFillings.splice(hoverIndex, 0, movedItem);
 			state.fillings = newFillings;
 		},
-		resetConstructor(state) {
-			state.bun = null;
-			state.fillings = [];
-		},
+		resetConstructor: () => initialState,
 	},
 });
 

@@ -23,14 +23,16 @@ export const createOrder = createAsyncThunk(
 	}
 );
 
+const initialState = {
+	orderNumber: null,
+	orderName: null,
+	isLoading: false,
+	errorMessage: null,
+};
+
 const orderSlice = createSlice({
 	name: 'order',
-	initialState: {
-		orderNumber: null,
-		orderName: null,
-		isLoading: false,
-		errorMessage: null,
-	},
+	initialState: initialState,
 	selectors: {
 		getOrderNumber: (state) => state.orderNumber,
 		getOrderName: (state) => state.orderName,
@@ -39,10 +41,8 @@ const orderSlice = createSlice({
 	},
 	reducers: {
 		resetOrder(state) {
-			state.orderNumber = null;
-			state.orderName = null;
-			state.isLoading = false;
-			state.errorMessage = null;
+			state.orderNumber = initialState.orderNumber;
+			state.orderName = initialState.orderName;
 		},
 		clearError(state) {
 			state.errorMessage = null;
@@ -60,6 +60,7 @@ const orderSlice = createSlice({
 				state.orderName = action.payload.name;
 			})
 			.addCase(createOrder.rejected, (state, action) => {
+				resetOrder(state);
 				state.isLoading = false;
 				state.errorMessage = action.payload;
 			});
