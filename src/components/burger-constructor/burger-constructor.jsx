@@ -6,7 +6,6 @@ import {
 	Button,
 	ConstructorElement,
 	CurrencyIcon,
-	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '@components/burger-constructor/order-details/order-details';
 import Modal from '@components/modal/modal';
@@ -17,9 +16,10 @@ import {
 	addFilling,
 	getBun,
 	getFillings,
-	removeFilling,
 } from '@store/burger-constructor-slice';
 import noBunImage from '@images/no-bun.svg';
+import BurgerDraggedItem from '@components/burger-constructor/burger-dragged-item/burger-dragged-item';
+import { dragTypes } from '@utils/constants';
 
 const BurgerConstructor = ({ ingredients }) => {
 	const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const BurgerConstructor = ({ ingredients }) => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
 
 	const [{ isHover }, dropTarget] = useDrop({
-		accept: 'ingredient',
+		accept: dragTypes.INGREDIENT,
 		drop({ ingredient }) {
 			ingredient.type === 'bun'
 				? dispatch(addBun(ingredient))
@@ -63,10 +63,6 @@ const BurgerConstructor = ({ ingredients }) => {
 		setIsOpenModal(false);
 	};
 
-	const handleRemoveFilling = (uid) => {
-		dispatch(removeFilling(uid));
-	};
-
 	return (
 		<section className={`${styles.burger_constructor} ml-4 mt-3`}>
 			<div
@@ -94,16 +90,8 @@ const BurgerConstructor = ({ ingredients }) => {
 						</div>
 						<div className={`${styles.ingredients_list} custom-scroll`}>
 							{fillings.length > 0 ? (
-								fillings.map((item) => (
-									<article className={styles.ingredient} key={item.uid}>
-										<DragIcon type='primary' />
-										<ConstructorElement
-											text={item.name}
-											price={item.price}
-											thumbnail={item.image}
-											handleClose={() => handleRemoveFilling(item.uid)}
-										/>
-									</article>
+								fillings.map((item, i) => (
+									<BurgerDraggedItem item={item} key={item.uid} index={i} />
 								))
 							) : (
 								<p

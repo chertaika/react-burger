@@ -1,3 +1,7 @@
 const INGREDIENTS_API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+const dragTypes = {
+	FILLING: 'filling',
+	INGREDIENT: 'ingredient',
+};
 
-export { INGREDIENTS_API_URL };
+export { INGREDIENTS_API_URL, dragTypes };

@@ -49,12 +49,6 @@
 	border-radius: calc(var(--offset-base-size) * 10);
 }
 
-.ingredient {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--offset-base-size) * 2);
-}
-
 .total {
 	display: flex;
 	justify-content: flex-end;

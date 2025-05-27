@@ -23,9 +23,11 @@ const burgerConstructorSlice = createSlice({
 			);
 		},
 		moveFilling(state, action) {
-			const { fromIndex, toIndex } = action.payload;
-			const [movedItem] = state.fillings.splice(fromIndex, 1);
-			state.fillings.splice(toIndex, 0, movedItem);
+			const { dragIndex, hoverIndex } = action.payload;
+			const newFillings = [...state.fillings];
+			const [movedItem] = newFillings.splice(dragIndex, 1);
+			newFillings.splice(hoverIndex, 0, movedItem);
+			state.fillings = newFillings;
 		},
 		resetConstructor(state) {
 			state.bun = null;

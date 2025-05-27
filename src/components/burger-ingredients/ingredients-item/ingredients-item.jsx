@@ -8,12 +8,13 @@ import { ingredientPropType } from '@utils/prop-types.js';
 import { useDispatch } from 'react-redux';
 import { setCurrentIngredient } from '@store/ingredient-details-slice';
 import { useDrag } from 'react-dnd';
+import { dragTypes } from '@utils/constants';
 
 const IngredientsItem = ({ ingredient, count }) => {
 	const dispatch = useDispatch();
 
 	const [{ isDragging }, dragRef] = useDrag(() => ({
-		type: 'ingredient',
+		type: dragTypes.INGREDIENT,
 		item: { ingredient },
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
