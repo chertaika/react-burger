@@ -4,7 +4,7 @@ const useModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const openModal = useCallback(() => {
-		setIsModalOpen(true);
+		setTimeout(() => setIsModalOpen(true), 20);
 	}, []);
 
 	const closeModal = useCallback(() => {

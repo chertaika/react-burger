@@ -1,55 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './app.module.css';
-import BurgerIngredients from '@components/burger-ingredients/burger-ingredients.jsx';
-import BurgerConstructor from '@components/burger-contructor/burger-constructor.jsx';
-import AppHeader from '@components/app-header/app-header.jsx';
-import Preloader from '@components/preloader/preloader.jsx';
-import ErrorBanner from '@components/error-banner/error-banner.jsx';
-import getInitialData from '@utils/api.js';
+import BurgerIngredients from '@components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from '@components/burger-constructor/burger-constructor';
+import AppHeader from '@components/app-header/app-header';
+import Preloader from '@components/preloader/preloader';
+import ErrorBanner from '@components/error-banner/error-banner';
+import { useDispatch, useSelector } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+import {
+	getAllIngredients,
+	getIngredients,
+	getIngredientsError,
+	getIngredientsLoading,
+} from '@store/ingredients-slice';
 
 export const App = () => {
-	const [ingredients, setIngredients] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [errorMessage, setErrorMessage] = useState('');
-
-	const getIngredients = async () => {
-		try {
-			const { data } = await getInitialData();
-			setIngredients(data);
-		} catch (error) {
-			console.log(error);
-			setErrorMessage(error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	const handleCloseErrorBanner = () => {
-		setErrorMessage('');
-	};
+	const dispatch = useDispatch();
+	const ingredients = useSelector(getAllIngredients);
+	const isLoading = useSelector(getIngredientsLoading);
+	const errorMessage = useSelector(getIngredientsError);
 
 	useEffect(() => {
-		getIngredients();
-	}, []);
+		dispatch(getIngredients());
+	}, [dispatch]);
 
 	return (
 		<div className={styles.app}>
 			{isLoading ? (
 				<Preloader />
-			) : errorMessage.length > 0 ? (
-				<ErrorBanner text={errorMessage} clearError={handleCloseErrorBanner} />
+			) : errorMessage ? (
+				<ErrorBanner text={errorMessage} />
 			) : (
-				ingredients.length > 0 && (
+				ingredients?.length > 0 && (
 					<>
 						<AppHeader />
 						<h1
-							className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
+							className={`${styles.title} text text_type_main-large mt-10 pl-5`}>
 							Соберите бургер
 						</h1>
-						<main className={`${styles.main} pl-5 pr-5 mb-10`}>
-							<BurgerIngredients ingredients={ingredients} />
-							<BurgerConstructor ingredients={ingredients} />
-						</main>
+						<DndProvider backend={HTML5Backend}>
+							<main className={`${styles.main} pl-5 pr-5 mb-10`}>
+								<BurgerIngredients />
+								<BurgerConstructor />
+							</main>
+						</DndProvider>
 					</>
 				)
 			)}

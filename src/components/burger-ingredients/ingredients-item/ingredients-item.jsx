@@ -5,25 +5,33 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
-import { useState } from 'react';
-import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details.jsx';
-import Modal from '@components/modal/modal.jsx';
+import { useDispatch } from 'react-redux';
+import { setCurrentIngredient } from '@store/ingredient-details-slice';
+import { useDrag } from 'react-dnd';
+import { dragTypes } from '@utils/constants';
 
 const IngredientsItem = ({ ingredient, count }) => {
-	const [isOpenModal, setIsOpenModal] = useState(false);
+	const dispatch = useDispatch();
+
+	const [{ isDragging }, dragRef] = useDrag(() => ({
+		type: dragTypes.INGREDIENT,
+		item: { ingredient },
+		collect: (monitor) => ({
+			isDragging: monitor.isDragging(),
+		}),
+	}));
 
 	const handleClickIngredient = () => {
-		setIsOpenModal(true);
-	};
-
-	const handleCloseModal = () => {
-		setIsOpenModal(false);
+		dispatch(setCurrentIngredient(ingredient));
 	};
 
 	return (
 		<>
 			{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
-			<li className={styles.ingredient} onClick={handleClickIngredient}>
+			<li
+				className={`${styles.ingredient} ${isDragging ? styles.dragging : ''}`}
+				onClick={handleClickIngredient}
+				ref={dragRef}>
 				{count > 0 && <Counter count={count} size={'default'} />}
 				<img
 					className={`${styles.image} pr-4 pl-4`}
@@ -38,11 +46,6 @@ const IngredientsItem = ({ ingredient, count }) => {
 					{ingredient.name}
 				</p>
 			</li>
-			{isOpenModal && (
-				<Modal title={'Детали ингредиента'} onClose={handleCloseModal}>
-					<IngredientDetails ingredient={ingredient} />
-				</Modal>
-			)}
 		</>
 	);
 };

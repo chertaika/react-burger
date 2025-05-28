@@ -1,0 +1,22 @@
+.total {
+	display: flex;
+	justify-content: flex-end;
+	gap: calc(var(--offset-base-size) * 10);
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--offset-base-size) * 2);
+}
+
+.loading {
+	animation: loading 1s steps(4, jump-none) infinite;
+	clip-path: inset(0 3ch 0 0);
+}
+
+@keyframes loading {
+	to {
+		clip-path: inset(0);
+	}
+}

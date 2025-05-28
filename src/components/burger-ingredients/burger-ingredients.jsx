@@ -1,12 +1,24 @@
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import styles from './burger-ingredients.module.css';
-import * as PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '@utils/prop-types.js';
 import IngredientsGroup from '@components/burger-ingredients/ingredients-group/ingredients-group.jsx';
 import { ingredientTypeTranslations } from '@utils/ingredients.js';
+import Modal from '@components/modal/modal';
+import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	clearCurrentIngredient,
+	getIngredientDetails,
+} from '@store/ingredient-details-slice';
+import { getIngredientsCount } from '@store/burger-constructor-slice';
+import { getAllIngredients } from '@store/ingredients-slice';
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = () => {
+	const dispatch = useDispatch();
+	const currentIngredient = useSelector(getIngredientDetails);
+	const ingredientsCount = useSelector(getIngredientsCount);
+	const ingredients = useSelector(getAllIngredients);
+
 	const [activeType, setActiveType] = useState(
 		Object.keys(ingredientTypeTranslations)[0]
 	);
@@ -31,8 +43,33 @@ const BurgerIngredients = ({ ingredients }) => {
 		}
 	};
 
+	const handleCloseModal = useCallback(() => {
+		dispatch(clearCurrentIngredient());
+	}, [dispatch]);
+
+	const handleScrollContainer = (e) => {
+		const containerTop = e.target.getBoundingClientRect().top;
+		const refs = groupRefs.current;
+		let closestType = null;
+		let minDistance = Infinity;
+
+		for (const type of Object.keys(refs)) {
+			const elementTop = refs[type].getBoundingClientRect().top;
+			const distance = Math.abs(elementTop - containerTop);
+
+			if (distance < minDistance) {
+				minDistance = distance;
+				closestType = type;
+			}
+		}
+
+		if (closestType && closestType !== activeType) {
+			setActiveType(closestType);
+		}
+	};
+
 	return (
-		<section className={styles.burger_ingredients}>
+		<section className={`${styles.burger_ingredients} mt-5`}>
 			<nav>
 				<ul className={styles.menu}>
 					{Object.keys(ingredientTypeTranslations).map((type) => (
@@ -46,22 +83,26 @@ const BurgerIngredients = ({ ingredients }) => {
 					))}
 				</ul>
 			</nav>
-			<div className={`${styles.ingredients_list} custom-scroll`}>
+			<div
+				className={`${styles.ingredients_list} custom-scroll`}
+				onScroll={handleScrollContainer}>
 				{Object.keys(groupedIngredients).map((type) => (
 					<IngredientsGroup
 						key={type}
 						type={ingredientTypeTranslations[type]}
 						items={groupedIngredients[type]}
 						ref={(element) => (groupRefs.current[type] = element)}
+						ingredientsCount={ingredientsCount}
 					/>
 				))}
 			</div>
+			{currentIngredient && (
+				<Modal title={'Детали ингредиента'} onClose={handleCloseModal}>
+					<IngredientDetails ingredient={currentIngredient} />
+				</Modal>
+			)}
 		</section>
 	);
-};
-
-BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 };
 
 export default BurgerIngredients;

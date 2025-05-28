@@ -1,12 +1,17 @@
 .banner {
+	position: fixed;
+	top: 50px;
+	right: 0;
+	left: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	gap: calc(var(--offset-base-size) * 4);
-	max-width: 1920px;
-	margin: 20px;
+	width: 100%;
+	max-width: 1240px;
+	margin: 20px auto;
 	padding: 15px;
-	background-color: rgb(220 38 38 / 30%); /* tailwind's red-600 примерно */
+	background-color: rgb(220 38 38 / 30%);
 	border-radius: 15px;
 }
 
