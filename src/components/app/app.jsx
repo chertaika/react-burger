@@ -19,6 +19,8 @@ import Login from '@pages/auth/login';
 import Registration from '@pages/auth/registration';
 import ResetPassword from '@pages/auth/reset-password';
 import ForgotPassword from '@pages/auth/forgot-password';
+import Profile from '@pages/profile/profile';
+import ProfileSettings from '@components/profile/profile-settings/profile-settings';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -64,6 +66,17 @@ export const App = () => {
 								<Route path='/register' element={<Registration />} />
 								<Route path='/reset-password' element={<ResetPassword />} />
 								<Route path='/forgot-password' element={<ForgotPassword />} />
+								<Route path='/profile' element={<Profile />}>
+									<Route index element={<ProfileSettings />} />
+									<Route
+										path={'orders'}
+										element={
+											<h3 className={'test text_type_main-large'}>
+												В разработке
+											</h3>
+										}
+									/>
+								</Route>
 							</Routes>
 						</>
 					)
