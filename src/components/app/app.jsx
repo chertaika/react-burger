@@ -14,13 +14,7 @@ import {
 	getIngredientsError,
 	getIngredientsLoading,
 } from '@store/ingredients-slice';
-import {
-	Route,
-	Routes,
-	useLocation,
-	useNavigate,
-	useParams,
-} from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Login from '@pages/auth/login';
 import Registration from '@pages/auth/registration';
 import ResetPassword from '@pages/auth/reset-password';
@@ -30,6 +24,7 @@ import ProfileSettings from '@components/profile/profile-settings/profile-settin
 import Ingredient from '@pages/ingredient/ingredient';
 import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
 import Modal from '@components/modal/modal';
+import NotFound from '@pages/not-found/not-found';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -48,10 +43,6 @@ export const App = () => {
 	const handleModalClose = () => {
 		navigate(-1);
 	};
-
-	const params = useParams();
-
-	console.log(params);
 
 	return (
 		<div className={styles.app}>
@@ -91,6 +82,7 @@ export const App = () => {
 								<Route path={'orders'} element={<p>В разработке</p>} />
 							</Route>
 							<Route path='/ingredients/:id' element={<Ingredient />} />
+							<Route path='*' element={<NotFound />} />
 						</Routes>
 
 						{background && (
