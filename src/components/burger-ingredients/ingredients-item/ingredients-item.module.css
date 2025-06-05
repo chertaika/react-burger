@@ -1,9 +1,5 @@
 .ingredient {
 	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: calc(var(--offset-base-size) * 2);
 	background-color: var(--background-alt);
 	border-radius: calc(var(--offset-base-size) * 6);
 	cursor: pointer;
@@ -12,6 +8,14 @@
 
 .dragging {
 	opacity: 0.5;
+}
+
+.link {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--offset-base-size) * 2);
+	text-decoration: none;
 }
 
 .image {
@@ -28,8 +32,4 @@
 .title {
 	min-height: calc(2 * 1.5em);
 	text-align: center;
-}
-
-.link {
-	text-decoration: none;
 }
