@@ -29,3 +29,7 @@
 	min-height: calc(2 * 1.5em);
 	text-align: center;
 }
+
+.link {
+	text-decoration: none;
+}

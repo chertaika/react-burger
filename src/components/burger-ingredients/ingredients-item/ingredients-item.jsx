@@ -9,9 +9,13 @@ import { useDispatch } from 'react-redux';
 import { setCurrentIngredient } from '@store/ingredient-details-slice';
 import { useDrag } from 'react-dnd';
 import { dragTypes } from '@utils/constants';
+import { Link, useLocation } from 'react-router-dom';
 
 const IngredientsItem = ({ ingredient, count }) => {
+	const location = useLocation();
 	const dispatch = useDispatch();
+
+	const id = ingredient._id;
 
 	const [{ isDragging }, dragRef] = useDrag(() => ({
 		type: dragTypes.INGREDIENT,
@@ -26,7 +30,10 @@ const IngredientsItem = ({ ingredient, count }) => {
 	};
 
 	return (
-		<>
+		<Link
+			to={`/ingredients/${id}`}
+			state={{ background: location }}
+			className={`${styles.link} text_color_primary`}>
 			{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
 			<li
 				className={`${styles.ingredient} ${isDragging ? styles.dragging : ''}`}
@@ -46,7 +53,7 @@ const IngredientsItem = ({ ingredient, count }) => {
 					{ingredient.name}
 				</p>
 			</li>
-		</>
+		</Link>
 	);
 };
 

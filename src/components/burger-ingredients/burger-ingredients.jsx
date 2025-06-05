@@ -1,21 +1,13 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsGroup from '@components/burger-ingredients/ingredients-group/ingredients-group.jsx';
 import { ingredientTypeTranslations } from '@utils/ingredients.js';
-import Modal from '@components/modal/modal';
-import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-	clearCurrentIngredient,
-	getIngredientDetails,
-} from '@store/ingredient-details-slice';
+import { useSelector } from 'react-redux';
 import { getIngredientsCount } from '@store/burger-constructor-slice';
 import { getAllIngredients } from '@store/ingredients-slice';
 
 const BurgerIngredients = () => {
-	const dispatch = useDispatch();
-	const currentIngredient = useSelector(getIngredientDetails);
 	const ingredientsCount = useSelector(getIngredientsCount);
 	const ingredients = useSelector(getAllIngredients);
 
@@ -42,10 +34,6 @@ const BurgerIngredients = () => {
 			element.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		}
 	};
-
-	const handleCloseModal = useCallback(() => {
-		dispatch(clearCurrentIngredient());
-	}, [dispatch]);
 
 	const handleScrollContainer = (e) => {
 		const containerTop = e.target.getBoundingClientRect().top;
@@ -96,11 +84,6 @@ const BurgerIngredients = () => {
 					/>
 				))}
 			</div>
-			{currentIngredient && (
-				<Modal title={'Детали ингредиента'} onClose={handleCloseModal}>
-					<IngredientDetails ingredient={currentIngredient} />
-				</Modal>
-			)}
 		</section>
 	);
 };
