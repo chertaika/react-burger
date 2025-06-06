@@ -1,27 +1,15 @@
-import { useEffect } from 'react';
 import styles from './not-found.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
+import { routes } from '@utils/constants';
+import { useStars } from '@/hooks/useStars';
 
 const NotFound = () => {
-	useEffect(() => {
-		const starsContainer = document.getElementById('stars');
-		for (let i = 0; i < 100; i++) {
-			const star = document.createElement('div');
-			const size = `${Math.random() * 4}px`;
-			star.className = styles.star;
-			star.style.width = size;
-			star.style.height = size;
-			star.style.left = `${Math.random() * 100}%`;
-			star.style.top = `${Math.random() * 100}%`;
-			star.style.animationDelay = `${Math.random() * 2}s`;
-			starsContainer.appendChild(star);
-		}
-	}, []);
+	const stars = useStars(100, 5);
 
 	return (
 		<div className={styles.not_found}>
-			<div className={styles.stars} id='stars'></div>
+			{stars}
 			<div className={styles.container}>
 				<div className={styles.burger}>
 					<div className={styles.bun_top}></div>
@@ -36,7 +24,7 @@ const NotFound = () => {
 					Упс! Этот космический бургер улетел в чёрную дыру!
 				</p>
 				<Button htmlType={'button'}>
-					<Link to={'/'} className={'text_color_primary'}>
+					<Link to={routes.HOME} className={'text_color_primary'}>
 						Вернуться в домашнюю галактику
 					</Link>
 				</Button>
