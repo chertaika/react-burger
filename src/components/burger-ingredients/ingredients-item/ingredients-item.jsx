@@ -6,13 +6,11 @@ import {
 import * as PropTypes from 'prop-types';
 import { ingredientPropType } from '@utils/prop-types.js';
 import { useDrag } from 'react-dnd';
-import { dragTypes } from '@utils/constants';
+import { dragTypes, routes } from '@utils/constants';
 import { Link, useLocation } from 'react-router-dom';
 
 const IngredientsItem = ({ ingredient, count }) => {
 	const location = useLocation();
-
-	const id = ingredient?._id;
 
 	const [{ isDragging }, dragRef] = useDrag(() => ({
 		type: dragTypes.INGREDIENT,
@@ -27,7 +25,7 @@ const IngredientsItem = ({ ingredient, count }) => {
 			className={`${styles.ingredient} ${isDragging ? styles.dragging : ''}`}
 			ref={dragRef}>
 			<Link
-				to={`/ingredients/${id}`}
+				to={`${routes.INGREDIENTS}/${ingredient?._id}`}
 				state={{ background: location }}
 				className={`${styles.link} text_color_primary`}>
 				{count > 0 && <Counter count={count} size={'default'} />}

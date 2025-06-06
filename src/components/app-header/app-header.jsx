@@ -6,6 +6,7 @@ import {
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
+import { routes } from '@utils/constants';
 
 const AppHeader = () => {
 	return (
@@ -13,7 +14,7 @@ const AppHeader = () => {
 			<nav className={`${styles.menu} p-4`}>
 				<div className={styles.menu_part_left}>
 					<NavLink
-						to={'/'}
+						to={routes.HOME}
 						className={({ isActive }) =>
 							`${styles.link} ${isActive ? styles.link_active : ''}`
 						}>
@@ -25,7 +26,7 @@ const AppHeader = () => {
 						)}
 					</NavLink>
 					<NavLink
-						to={'/feed'}
+						to={routes.FEED}
 						className={({ isActive }) =>
 							`${styles.link} ${isActive ? styles.link_active : ''}`
 						}>
@@ -44,7 +45,7 @@ const AppHeader = () => {
 				</div>
 				<div className={styles.link_position_last}>
 					<NavLink
-						to='/profile'
+						to={routes.PROFILE}
 						className={({ isActive }) =>
 							`${styles.link} ${isActive ? styles.link_active : ''}`
 						}>

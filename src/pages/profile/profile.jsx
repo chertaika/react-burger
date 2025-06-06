@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './profile.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
+import { routes } from '@utils/constants';
 
 const Profile = () => {
 	return (
@@ -9,7 +10,7 @@ const Profile = () => {
 				<ul>
 					<li>
 						<NavLink
-							to={'/profile'}
+							to={routes.PROFILE}
 							end
 							className={({ isActive }) =>
 								`${styles.nav_link} text text_type_main-medium text_color_inactive ${isActive ? styles.active : ''}`
@@ -19,7 +20,7 @@ const Profile = () => {
 					</li>
 					<li>
 						<NavLink
-							to={'/profile/orders'}
+							to={routes.PROFILE_ORDERS}
 							className={({ isActive }) =>
 								`${styles.nav_link} text text_type_main-medium text_color_inactive ${isActive ? styles.active : ''}`
 							}>

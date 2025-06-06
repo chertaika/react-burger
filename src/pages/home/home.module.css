@@ -1,0 +1,16 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	max-width: 1240px;
+	margin-inline: auto;
+}
+
+.main {
+	display: flex;
+	justify-content: space-between;
+	gap: calc(var(--offset-base-size) * 10);
+	width: 1240px;
+	height: 100%;
+	max-height: calc(100vh - 202px);
+	margin: 0 auto;
+}

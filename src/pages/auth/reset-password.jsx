@@ -6,6 +6,7 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
+import { routes } from '@utils/constants';
 
 const ResetPassword = () => {
 	return (
@@ -33,7 +34,7 @@ const ResetPassword = () => {
 					className={`${styles.hint} text text_type_main-default text_color_inactive`}>
 					Вспомнили пароль?{' '}
 					<Link
-						to={'/login'}
+						to={routes.LOGIN}
 						className={`${styles.link} text text_color_accent`}>
 						Войти
 					</Link>

@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import styles from './app.module.css';
-import BurgerIngredients from '@components/burger-ingredients/burger-ingredients';
-import BurgerConstructor from '@components/burger-constructor/burger-constructor';
 import AppHeader from '@components/app-header/app-header';
 import Preloader from '@components/preloader/preloader';
 import ErrorBanner from '@components/error-banner/error-banner';
 import { useDispatch, useSelector } from 'react-redux';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
 import {
 	getAllIngredients,
 	getIngredients,
@@ -25,6 +21,8 @@ import Ingredient from '@pages/ingredient/ingredient';
 import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
 import Modal from '@components/modal/modal';
 import NotFound from '@pages/not-found/not-found';
+import { routes } from '@utils/constants';
+import Home from '@pages/home/home';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -56,39 +54,33 @@ export const App = () => {
 						<AppHeader />
 
 						<Routes location={background || location}>
+							<Route path={routes.HOME} element={<Home />} />
+							<Route path={routes.LOGIN} element={<Login />} />
+							<Route path={routes.REGISTER} element={<Registration />} />
+							<Route path={routes.RESET_PASSWORD} element={<ResetPassword />} />
 							<Route
-								path={'/'}
-								element={
-									<>
-										<h1
-											className={`${styles.title} text text_type_main-large mt-10 pl-5`}>
-											Соберите бургер
-										</h1>
-										<DndProvider backend={HTML5Backend}>
-											<main className={`${styles.main} pl-5 pr-5 mb-10`}>
-												<BurgerIngredients />
-												<BurgerConstructor />
-											</main>
-										</DndProvider>
-									</>
-								}
+								path={routes.FORGOT_PASSWORD}
+								element={<ForgotPassword />}
 							/>
-							<Route path='/login' element={<Login />} />
-							<Route path='/register' element={<Registration />} />
-							<Route path='/reset-password' element={<ResetPassword />} />
-							<Route path='/forgot-password' element={<ForgotPassword />} />
-							<Route path='/profile' element={<Profile />}>
+							<Route path={routes.PROFILE} element={<Profile />}>
 								<Route index element={<ProfileSettings />} />
-								<Route path={'orders'} element={<p>В разработке</p>} />
+								<Route
+									path={routes.PROFILE_ORDERS}
+									element={
+										<p className={'text text_type_main-large'}>
+											В разработке...
+										</p>
+									}
+								/>
 							</Route>
-							<Route path='/ingredients/:id' element={<Ingredient />} />
+							<Route path={routes.INGREDIENT} element={<Ingredient />} />
 							<Route path='*' element={<NotFound />} />
 						</Routes>
 
 						{background && (
 							<Routes>
 								<Route
-									path='/ingredients/:id'
+									path={routes.INGREDIENT}
 									element={
 										<Modal
 											onClose={handleModalClose}
