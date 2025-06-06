@@ -1,0 +1,102 @@
+.container {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-inline: calc(var(--offset-base-size) * 6);
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	min-height: 600px;
+}
+
+.content {
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: calc(var(--offset-base-size) * 10);
+	padding: calc(var(--offset-base-size) * 6);
+	text-align: center;
+}
+
+.text {
+	max-width: 500px;
+}
+
+.galaxy {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 60px;
+	height: 60px;
+	margin-bottom: 50px;
+}
+
+.sun {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	background: linear-gradient(
+		135deg,
+		var(--colors-interface-success),
+		var(--colors-interface-accent)
+	);
+	border-radius: 50%;
+	animation: pulse 2s ease-in-out infinite;
+}
+
+.planet {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 5px;
+	height: 5px;
+	background: var(--text-inactive-color);
+	border-radius: 50%;
+	animation: orbit 4s linear infinite;
+	animation-delay: 0s;
+}
+
+.planet:nth-child(2) {
+	animation-delay: -1s;
+}
+
+.planet:nth-child(3) {
+	animation-delay: -2s;
+}
+
+.planet:nth-child(4) {
+	animation-delay: -3s;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.1);
+	}
+}
+
+@keyframes orbit {
+	0% {
+		transform: translate(-50%, -50%) rotate(0deg) translateX(50px) rotate(0deg);
+		opacity: 1;
+	}
+
+	50% {
+		transform: translate(-50%, -50%) rotate(180deg) translateX(50px)
+			rotate(-180deg);
+		opacity: 0.5;
+	}
+
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg) translateX(50px)
+			rotate(-360deg);
+		opacity: 1;
+	}
+}

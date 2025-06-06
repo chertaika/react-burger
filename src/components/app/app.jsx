@@ -23,6 +23,7 @@ import Modal from '@components/modal/modal';
 import NotFound from '@pages/not-found/not-found';
 import { routes } from '@utils/constants';
 import Home from '@pages/home/home';
+import UnderDevelopment from '@components/under-development/under-development';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -66,14 +67,11 @@ export const App = () => {
 								<Route index element={<ProfileSettings />} />
 								<Route
 									path={routes.PROFILE_ORDERS}
-									element={
-										<p className={'text text_type_main-large'}>
-											В разработке...
-										</p>
-									}
+									element={<UnderDevelopment />}
 								/>
 							</Route>
 							<Route path={routes.INGREDIENT} element={<Ingredient />} />
+							<Route path={routes.FEED} element={<UnderDevelopment />} />
 							<Route path='*' element={<NotFound />} />
 						</Routes>
 

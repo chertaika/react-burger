@@ -10,8 +10,8 @@ export const useStars = (count = 50, maxSize = 5) => {
 					style={{
 						width: size,
 						height: size,
-						left: `${Math.random() * 100}%`,
-						top: `${Math.random() * 100}%`,
+						left: `${Math.random() * 99}%`,
+						top: `${Math.random() * 99}%`,
 						position: 'absolute',
 						background: 'var(--text-primary-color)',
 						borderRadius: '50%',

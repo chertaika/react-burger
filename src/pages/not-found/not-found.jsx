@@ -8,9 +8,9 @@ const NotFound = () => {
 	const stars = useStars(100, 5);
 
 	return (
-		<div className={styles.not_found}>
+		<div className={styles.container}>
 			{stars}
-			<div className={styles.container}>
+			<div className={styles.content}>
 				<div className={styles.burger}>
 					<div className={styles.bun_top}></div>
 					<div className={styles.salad}></div>
@@ -21,7 +21,7 @@ const NotFound = () => {
 					404 - Бургер не найден
 				</h1>
 				<p className={'text text_type_main-medium text_color_inactive'}>
-					Упс! Этот космический бургер улетел в чёрную дыру!
+					Упс! Кажется, ты заблудился в межзвёздном пространстве.
 				</p>
 				<Button htmlType={'button'}>
 					<Link to={routes.HOME} className={'text_color_primary'}>
