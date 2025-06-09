@@ -57,7 +57,7 @@ const OrderCheckout = ({ isDisabledButton }) => {
 					disabled={isDisabledButton || isLoading}
 					children={isLoading && <Preloader />}>
 					{isLoading ? (
-						<span className={styles.loading}>Отправляется...</span>
+						<span className={'loading'}>Отправляется...</span>
 					) : (
 						'Оформить заказ'
 					)}

@@ -1,8 +1,16 @@
-const INGREDIENTS_API_URL = 'https://norma.nomoreparties.space/api/ingredients';
-const CREATE_ORDER_API_URL = 'https://norma.nomoreparties.space/api/orders';
 const dragTypes = {
 	FILLING: 'filling',
 	INGREDIENT: 'ingredient',
+};
+const api = {
+	BASE_URL: 'https://norma.nomoreparties.space/api',
+	INGREDIENTS_URL: '/ingredients',
+	CREATE_ORDER_URL: '/orders',
+	REGISTER_URL: '/auth/register',
+	LOGIN_URL: '/auth/login',
+	LOGOUT_URL: '/auth/logout',
+	REFRESH_TOKEN_URL: '/auth/token',
+	GET_USER_URL: '/auth/user',
 };
 const routes = {
 	HOME: '/',
@@ -16,5 +24,7 @@ const routes = {
 	INGREDIENT: '/ingredients/:id',
 	FEED: '/feed',
 };
+const EMAIL_REGEX = '^[a-zA-Z0-9+_.\\-]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,4}$';
+const NAME_REGEX = '[A-Za-zА-Яа-яЁё\\s\\-]+';
 
-export { INGREDIENTS_API_URL, CREATE_ORDER_API_URL, dragTypes, routes };
+export { dragTypes, routes, api, EMAIL_REGEX, NAME_REGEX };

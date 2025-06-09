@@ -23,7 +23,10 @@
 	display: block;
 	width: 100%;
 	padding: 17px 0;
+	text-align: left;
 	text-decoration: none;
+	background: none;
+	border: none;
 	cursor: pointer;
 	transition: var(--common-transition);
 }

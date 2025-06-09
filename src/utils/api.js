@@ -1,38 +1,91 @@
-import { CREATE_ORDER_API_URL, INGREDIENTS_API_URL } from '@utils/constants.js';
+import axios from 'axios';
+import { api } from '@utils/constants.js';
+import Promise from 'lodash-es/_Promise';
 
-const checkResponse = async (res, context = 'Неизвестная ошибка') => {
-	if (res.ok) {
-		return res.json();
+const $api = axios.create({
+	baseURL: api.BASE_URL,
+	headers: {
+		'Content-Type': 'application/json',
+	},
+});
+
+$api.interceptors.request.use((config) => {
+	const token = localStorage.getItem('accessToken');
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
 	}
+	return config;
+});
 
-	let errorMessage = `${context}: Статус ${res.status}`;
+$api.interceptors.response.use(
+	(response) => response.data,
+	async (error) => {
+		const originalRequest = error.config;
+		const errorMessage = error.response?.data?.message || '';
+		const customMessage = originalRequest.errorContext || 'Ошибка запроса';
 
-	try {
-		const errorData = await res.json();
-		if (errorData.message) {
-			errorMessage = `${context}: ${errorData.message}`;
+		if (errorMessage === 'jwt expired' && !originalRequest._retry) {
+			originalRequest._retry = true;
+
+			try {
+				const { accessToken, refreshToken } = await $api.post(
+					api.REFRESH_TOKEN_URL,
+					{
+						token: localStorage.getItem('refreshToken'),
+					}
+				);
+
+				localStorage.setItem('accessToken', accessToken.split('Bearer ')[1]);
+				localStorage.setItem('refreshToken', refreshToken);
+
+				originalRequest.headers.Authorization = accessToken;
+				return $api(originalRequest);
+			} catch (refreshError) {
+				localStorage.removeItem('accessToken');
+				localStorage.removeItem('refreshToken');
+				return Promise.reject('Сессия истекла. Войдите снова.');
+			}
 		}
-	} catch (e) {
-		errorMessage = `${context}: Статус ${res.status}`;
+
+		const serverStatus = error.response?.data?.status || error.status;
+		return Promise.reject({
+			message: customMessage,
+			status: serverStatus,
+		});
 	}
+);
 
-	return Promise.reject(errorMessage);
-};
-
-const getInitialData = async () => {
-	const res = await fetch(INGREDIENTS_API_URL);
-	return checkResponse(res, 'Ошибка получения ингредиентов');
-};
-
-const createOrderRequest = async (ingredients) => {
-	const res = await fetch(CREATE_ORDER_API_URL, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ ingredients }),
+export const apiGetInitialData = () =>
+	$api.get(api.INGREDIENTS_URL, {
+		errorContext: 'Ошибка получения ингредиентов',
 	});
-	return checkResponse(res, 'Ошибка отправки заказа');
-};
 
-export { getInitialData, createOrderRequest };
+export const createOrderRequest = (ingredients) =>
+	$api.post(
+		api.CREATE_ORDER_URL,
+		{ ingredients },
+		{
+			errorContext: 'Ошибка создания заказа',
+		}
+	);
+
+export const apiGetUser = () => $api.get(api.GET_USER_URL);
+
+export const apiRegisterUser = ({ name, email, password }) =>
+	$api.post(
+		api.REGISTER_URL,
+		{ name, email, password },
+		{
+			errorContext: 'Ошибка регистрации',
+		}
+	);
+
+export const apiLogin = (userData) =>
+	$api.post(api.LOGIN_URL, userData, {
+		errorContext: 'Ошибка авторизации',
+	});
+
+export const apiLogout = () =>
+	$api.post(api.LOGOUT_URL, {
+		token: localStorage.getItem('refreshToken'),
+	});

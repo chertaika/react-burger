@@ -24,6 +24,8 @@ import NotFound from '@pages/not-found/not-found';
 import { routes } from '@utils/constants';
 import Home from '@pages/home/home';
 import UnderDevelopment from '@components/under-development/under-development';
+import ProtectedRoute from '@components/protected-route/protected-route';
+import { getUser } from '@store/user-slice';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -33,6 +35,7 @@ export const App = () => {
 
 	useEffect(() => {
 		dispatch(getIngredients());
+		dispatch(getUser());
 	}, [dispatch]);
 
 	const location = useLocation();
@@ -53,17 +56,47 @@ export const App = () => {
 				ingredients?.length > 0 && (
 					<>
 						<AppHeader />
-
 						<Routes location={background || location}>
 							<Route path={routes.HOME} element={<Home />} />
-							<Route path={routes.LOGIN} element={<Login />} />
-							<Route path={routes.REGISTER} element={<Registration />} />
-							<Route path={routes.RESET_PASSWORD} element={<ResetPassword />} />
+							<Route
+								path={routes.LOGIN}
+								element={
+									<ProtectedRoute forUnauthenticatedOnly={true}>
+										<Login />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path={routes.REGISTER}
+								element={
+									<ProtectedRoute forUnauthenticatedOnly={true}>
+										<Registration />
+									</ProtectedRoute>
+								}
+							/>
+							<Route
+								path={routes.RESET_PASSWORD}
+								element={
+									<ProtectedRoute forUnauthenticatedOnly={true}>
+										<ResetPassword />
+									</ProtectedRoute>
+								}
+							/>
 							<Route
 								path={routes.FORGOT_PASSWORD}
-								element={<ForgotPassword />}
+								element={
+									<ProtectedRoute forUnauthenticatedOnly={true}>
+										<ForgotPassword />
+									</ProtectedRoute>
+								}
 							/>
-							<Route path={routes.PROFILE} element={<Profile />}>
+							<Route
+								path={routes.PROFILE}
+								element={
+									<ProtectedRoute>
+										<Profile />
+									</ProtectedRoute>
+								}>
 								<Route index element={<ProfileSettings />} />
 								<Route
 									path={routes.PROFILE_ORDERS}

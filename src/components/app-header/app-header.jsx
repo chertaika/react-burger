@@ -7,8 +7,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 import { routes } from '@utils/constants';
+import { useSelector } from 'react-redux';
+import { getUserInfo } from '@store/user-slice';
 
 const AppHeader = () => {
+	const user = useSelector(getUserInfo);
 	return (
 		<header className={styles.header}>
 			<nav className={`${styles.menu} p-4`}>
@@ -44,20 +47,37 @@ const AppHeader = () => {
 					<Logo />
 				</div>
 				<div className={styles.link_position_last}>
-					<NavLink
-						to={routes.PROFILE}
-						className={({ isActive }) =>
-							`${styles.link} ${isActive ? styles.link_active : ''}`
-						}>
-						{({ isActive }) => (
-							<>
-								<ProfileIcon type={isActive ? 'primary' : 'secondary'} />
-								<p className='text text_type_main-default ml-2'>
-									Личный кабинет
-								</p>
-							</>
-						)}
-					</NavLink>
+					{user ? (
+						<NavLink
+							to={routes.PROFILE}
+							className={({ isActive }) =>
+								`${styles.link} ${isActive ? styles.link_active : ''}`
+							}>
+							{({ isActive }) => (
+								<>
+									<ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+									<p className='text text_type_main-default ml-2'>
+										Личный кабинет
+									</p>
+								</>
+							)}
+						</NavLink>
+					) : (
+						<NavLink
+							to={routes.LOGIN}
+							className={({ isActive }) =>
+								`${styles.link} ${isActive ? styles.link_active : ''}`
+							}>
+							{({ isActive }) => (
+								<>
+									<ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+									<p className='text text_type_main-default ml-2'>
+										Вход/Регистрация
+									</p>
+								</>
+							)}
+						</NavLink>
+					)}
 				</div>
 			</nav>
 		</header>

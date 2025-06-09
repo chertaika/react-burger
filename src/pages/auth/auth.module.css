@@ -20,7 +20,7 @@
 	flex-direction: column;
 	align-items: center;
 	gap: calc(var(--offset-base-size) * 4);
-	margin-top: calc(var(--offset-base-size) * 14);
+	margin-top: calc(var(--offset-base-size) * 8);
 }
 
 .hint {
@@ -34,4 +34,8 @@
 
 .link:hover {
 	color: var(--text-primary-color);
+}
+
+.error {
+	min-height: 24px;
 }
