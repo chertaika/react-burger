@@ -25,7 +25,7 @@ import { routes } from '@utils/constants';
 import Home from '@pages/home/home';
 import UnderDevelopment from '@components/under-development/under-development';
 import ProtectedRoute from '@components/protected-route/protected-route';
-import { getUser } from '@store/user-slice';
+import { checkUserAuth } from '@store/user-slice';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export const App = () => {
 	const errorMessage = useSelector(getIngredientsError);
 
 	useEffect(() => {
-		dispatch(getUser());
+		dispatch(checkUserAuth(dispatch));
 		dispatch(getIngredients());
 	}, [dispatch]);
 

@@ -59,6 +59,7 @@ const ResetPassword = () => {
 					value={inputValues.token}
 					onChange={handleChange}
 					placeholder={'Введите код из письма'}
+					required
 				/>
 				<Button
 					type={'primary'}

@@ -1,14 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiGetUser, apiLogin, apiLogout, apiRegisterUser } from '@utils/api';
 
-export const getUser = createAsyncThunk(
-	'user/getUser',
-	async (_, { rejectWithValue }) => {
-		try {
-			const { user } = await apiGetUser();
-			return user;
-		} catch (error) {
-			return rejectWithValue(`${error.message}: Статус ${error.status}`);
+export const checkUserAuth = createAsyncThunk(
+	'user/checkUserAuth',
+	async (_, { dispatch }) => {
+		if (localStorage.getItem('accessToken')) {
+			try {
+				const { user } = await apiGetUser();
+				dispatch(setUser(user));
+			} catch (error) {
+				console.log(error);
+			} finally {
+				dispatch(setIsAuthChecked(true));
+			}
+		} else {
+			dispatch(setIsAuthChecked(true));
 		}
 	}
 );
@@ -65,6 +71,7 @@ export const logout = createAsyncThunk(
 
 const initialState = {
 	user: null,
+	isAuthChecked: false,
 	isLoading: false,
 	errorMessage: null,
 };
@@ -74,28 +81,23 @@ const userSlice = createSlice({
 	initialState: initialState,
 	selectors: {
 		getUserInfo: (state) => state.user,
+		getIsAuthChecked: (state) => state.isAuthChecked,
 		getUserLoading: (state) => state.isLoading,
 		getUserError: (state) => state.errorMessage,
 	},
 	reducers: {
+		setUser: (state, action) => {
+			state.user = action.payload;
+		},
+		setIsAuthChecked: (state, action) => {
+			state.isAuthChecked = action.payload;
+		},
 		clearError(state) {
 			state.errorMessage = null;
 		},
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(getUser.pending, (state) => {
-				state.isLoading = true;
-				state.errorMessage = null;
-			})
-			.addCase(getUser.fulfilled, (state, action) => {
-				state.isLoading = false;
-				state.user = action.payload;
-			})
-			.addCase(getUser.rejected, (state) => {
-				state.user = initialState.user;
-				state.isLoading = false;
-			})
 			.addCase(register.pending, (state) => {
 				state.isLoading = true;
 				state.errorMessage = null;
@@ -137,7 +139,7 @@ const userSlice = createSlice({
 	},
 });
 
-export const { clearError } = userSlice.actions;
-export const { getUserInfo, getUserError, getUserLoading } =
+export const { clearError, setUser, setIsAuthChecked } = userSlice.actions;
+export const { getUserInfo, getUserError, getUserLoading, getIsAuthChecked } =
 	userSlice.selectors;
 export default userSlice.reducer;
