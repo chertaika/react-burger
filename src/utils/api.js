@@ -89,3 +89,13 @@ export const apiLogout = () =>
 	$api.post(api.LOGOUT_URL, {
 		token: localStorage.getItem('refreshToken'),
 	});
+
+export const apiRestorePassword = (email) =>
+	$api.post(api.RESTORE_PASSWORD_URL, email, {
+		errorContext: 'Ошибка восстановления пароля',
+	});
+
+export const apiResetPassword = (passwordData) =>
+	$api.post(api.RESET_PASSWORD_URL, passwordData, {
+		errorContext: 'Ошибка обновления пароля',
+	});

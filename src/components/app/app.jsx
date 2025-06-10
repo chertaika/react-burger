@@ -34,8 +34,8 @@ export const App = () => {
 	const errorMessage = useSelector(getIngredientsError);
 
 	useEffect(() => {
-		dispatch(getIngredients());
 		dispatch(getUser());
+		dispatch(getIngredients());
 	}, [dispatch]);
 
 	const location = useLocation();

@@ -11,6 +11,8 @@ const api = {
 	LOGOUT_URL: '/auth/logout',
 	REFRESH_TOKEN_URL: '/auth/token',
 	GET_USER_URL: '/auth/user',
+	RESTORE_PASSWORD_URL: '/password-reset',
+	RESET_PASSWORD_URL: '/password-reset/reset',
 };
 const routes = {
 	HOME: '/',
@@ -25,6 +27,5 @@ const routes = {
 	FEED: '/feed',
 };
 const EMAIL_REGEX = '^[a-zA-Z0-9+_.\\-]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,4}$';
-const NAME_REGEX = '[A-Za-zА-Яа-яЁё\\s\\-]+';
 
-export { dragTypes, routes, api, EMAIL_REGEX, NAME_REGEX };
+export { dragTypes, routes, api, EMAIL_REGEX };
