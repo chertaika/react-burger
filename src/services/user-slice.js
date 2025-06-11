@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { apiGetUser, apiLogin, apiLogout, apiRegisterUser } from '@utils/api';
+import {
+	apiChangeUserInfo,
+	apiGetUser,
+	apiLogin,
+	apiLogout,
+	apiRegisterUser,
+} from '@utils/api';
 
 export const checkUserAuth = createAsyncThunk(
 	'user/checkUserAuth',
@@ -63,6 +69,18 @@ export const logout = createAsyncThunk(
 			await apiLogout();
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
+		} catch (error) {
+			return rejectWithValue(`${error.message}: Статус ${error.status}`);
+		}
+	}
+);
+
+export const changeUserInfo = createAsyncThunk(
+	'user/changeUserInfo',
+	async (userInfo, { dispatch, rejectWithValue }) => {
+		try {
+			const { user } = await apiChangeUserInfo(userInfo);
+			dispatch(setUser(user));
 		} catch (error) {
 			return rejectWithValue(`${error.message}: Статус ${error.status}`);
 		}
@@ -133,6 +151,17 @@ const userSlice = createSlice({
 				state.user = initialState.user;
 			})
 			.addCase(logout.rejected, (state, action) => {
+				state.isLoading = false;
+				state.errorMessage = action.payload;
+			})
+			.addCase(changeUserInfo.pending, (state) => {
+				state.isLoading = true;
+				state.errorMessage = null;
+			})
+			.addCase(changeUserInfo.fulfilled, (state) => {
+				state.isLoading = false;
+			})
+			.addCase(changeUserInfo.rejected, (state, action) => {
 				state.isLoading = false;
 				state.errorMessage = action.payload;
 			});

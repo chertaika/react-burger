@@ -10,7 +10,7 @@ const api = {
 	LOGIN_URL: '/auth/login',
 	LOGOUT_URL: '/auth/logout',
 	REFRESH_TOKEN_URL: '/auth/token',
-	GET_USER_URL: '/auth/user',
+	USER_URL: '/auth/user',
 	RESTORE_PASSWORD_URL: '/password-reset',
 	RESET_PASSWORD_URL: '/password-reset/reset',
 };

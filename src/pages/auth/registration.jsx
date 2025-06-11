@@ -51,7 +51,7 @@ const Registration = () => {
 					value={inputValues.name}
 					name='name'
 					required
-					error={errorMessages.name}
+					error={errorMessages?.name?.length > 0}
 					errorText={errorMessages.name}
 				/>
 				<EmailInput

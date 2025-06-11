@@ -2,4 +2,11 @@
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--offset-base-size) * 6);
+	max-width: 480px;
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: calc(var(--offset-base-size) * 5);
 }

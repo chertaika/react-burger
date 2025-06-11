@@ -16,10 +16,10 @@ const useFormValidator = (initialValues = {}) => {
 	};
 
 	const resetForm = useCallback(() => {
-		setInputValues({});
+		setInputValues(initialValues);
 		setErrorMessages({});
 		setIsValid(false);
-	}, []);
+	}, [initialValues]);
 
 	return {
 		inputValues,

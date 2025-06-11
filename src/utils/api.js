@@ -69,16 +69,17 @@ export const createOrderRequest = (ingredients) =>
 		}
 	);
 
-export const apiGetUser = () => $api.get(api.GET_USER_URL);
+export const apiGetUser = () => $api.get(api.USER_URL);
 
-export const apiRegisterUser = ({ name, email, password }) =>
-	$api.post(
-		api.REGISTER_URL,
-		{ name, email, password },
-		{
-			errorContext: 'Ошибка регистрации',
-		}
-	);
+export const apiChangeUserInfo = (userInfo) =>
+	$api.patch(api.USER_URL, userInfo, {
+		errorContext: 'Ошибка изменения данных ',
+	});
+
+export const apiRegisterUser = (userData) =>
+	$api.post(api.REGISTER_URL, userData, {
+		errorContext: 'Ошибка регистрации',
+	});
 
 export const apiLogin = (userData) =>
 	$api.post(api.LOGIN_URL, userData, {

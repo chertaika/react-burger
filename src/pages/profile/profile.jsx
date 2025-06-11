@@ -2,12 +2,11 @@ import React from 'react';
 import styles from './profile.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import { routes } from '@utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserLoading, logout } from '@store/user-slice';
+import { useDispatch } from 'react-redux';
+import { logout } from '@store/user-slice';
 
 const Profile = () => {
 	const dispatch = useDispatch();
-	const isLoading = useSelector(getUserLoading);
 
 	const handleLogout = () => {
 		dispatch(logout());
@@ -39,13 +38,13 @@ const Profile = () => {
 						<button
 							className={`${styles.nav_link} text text_type_main-medium text_color_inactive`}
 							onClick={handleLogout}>
-							{isLoading ? (
-								<span className={'loading'}>Выход...</span>
-							) : (
-								'Выход'
-							)}
+							Выход
 						</button>
 					</li>
+					<p
+						className={`${styles.hint} text text_type_main-default text_color_inactive mt-20`}>
+						В этом разделе вы можете изменить&nbsp;свои персональные данные
+					</p>
 				</ul>
 			</nav>
 			<Outlet />
