@@ -11,16 +11,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	changeUserInfo,
 	clearError,
+	getLoadingStatus,
 	getUserError,
 	getUserInfo,
-	getUserLoading,
 } from '@store/user-slice';
 
 const ProfileSettings = () => {
 	const dispatch = useDispatch();
 	const user = useSelector(getUserInfo);
 	const userError = useSelector(getUserError);
-	const isLoading = useSelector(getUserLoading);
+	const { changeUserInfo: isLoading } = useSelector(getLoadingStatus);
 	const { inputValues, isValid, handleChange, errorMessages, resetForm } =
 		useFormValidator({
 			...user,

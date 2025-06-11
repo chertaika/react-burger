@@ -90,8 +90,14 @@ export const changeUserInfo = createAsyncThunk(
 const initialState = {
 	user: null,
 	isAuthChecked: false,
-	isLoading: false,
 	errorMessage: null,
+	loadingStates: {
+		register: false,
+		login: false,
+		logout: false,
+		changeUserInfo: false,
+		checkUserAuth: false,
+	},
 };
 
 const userSlice = createSlice({
@@ -100,8 +106,8 @@ const userSlice = createSlice({
 	selectors: {
 		getUserInfo: (state) => state.user,
 		getIsAuthChecked: (state) => state.isAuthChecked,
-		getUserLoading: (state) => state.isLoading,
 		getUserError: (state) => state.errorMessage,
+		getLoadingStatus: (state) => state.loadingStates,
 	},
 	reducers: {
 		setUser: (state, action) => {
@@ -117,58 +123,58 @@ const userSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(register.pending, (state) => {
-				state.isLoading = true;
+				state.loadingStates.register = true;
 				state.errorMessage = null;
 			})
 			.addCase(register.fulfilled, (state, action) => {
-				state.isLoading = false;
+				state.loadingStates.register = false;
 				state.user = action.payload;
 			})
 			.addCase(register.rejected, (state, action) => {
 				state.user = initialState.user;
-				state.isLoading = false;
+				state.loadingStates.register = false;
 				state.errorMessage = action.payload;
 			})
 			.addCase(login.pending, (state) => {
-				state.isLoading = true;
+				state.loadingStates.login = true;
 				state.errorMessage = null;
 			})
 			.addCase(login.fulfilled, (state, action) => {
-				state.isLoading = false;
+				state.loadingStates.login = false;
 				state.user = action.payload;
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.user = initialState.user;
-				state.isLoading = false;
+				state.loadingStates.login = false;
 				state.errorMessage = action.payload;
 			})
 			.addCase(logout.pending, (state) => {
-				state.isLoading = true;
+				state.loadingStates.logout = true;
 				state.errorMessage = null;
 			})
 			.addCase(logout.fulfilled, (state) => {
-				state.isLoading = false;
+				state.loadingStates.logout = false;
 				state.user = initialState.user;
 			})
 			.addCase(logout.rejected, (state, action) => {
-				state.isLoading = false;
+				state.loadingStates.logout = false;
 				state.errorMessage = action.payload;
 			})
 			.addCase(changeUserInfo.pending, (state) => {
-				state.isLoading = true;
+				state.loadingStates.changeUserInfo = true;
 				state.errorMessage = null;
 			})
 			.addCase(changeUserInfo.fulfilled, (state) => {
-				state.isLoading = false;
+				state.loadingStates.changeUserInfo = false;
 			})
 			.addCase(changeUserInfo.rejected, (state, action) => {
-				state.isLoading = false;
+				state.loadingStates.changeUserInfo = false;
 				state.errorMessage = action.payload;
 			});
 	},
 });
 
 export const { clearError, setUser, setIsAuthChecked } = userSlice.actions;
-export const { getUserInfo, getUserError, getUserLoading, getIsAuthChecked } =
+export const { getLoadingStatus, getUserInfo, getUserError, getIsAuthChecked } =
 	userSlice.selectors;
 export default userSlice.reducer;

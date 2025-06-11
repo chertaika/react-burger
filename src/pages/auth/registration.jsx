@@ -11,8 +11,8 @@ import { EMAIL_REGEX, routes } from '@utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	clearError,
+	getLoadingStatus,
 	getUserError,
-	getUserLoading,
 	register,
 } from '@store/user-slice';
 import useFormValidator from '@/hooks/useFormValidator';
@@ -20,7 +20,7 @@ import useFormValidator from '@/hooks/useFormValidator';
 const Registration = () => {
 	const dispatch = useDispatch();
 	const userError = useSelector(getUserError);
-	const isLoading = useSelector(getUserLoading);
+	const { register: isLoading } = useSelector(getLoadingStatus);
 
 	const { inputValues, isValid, handleChange, errorMessages } =
 		useFormValidator({

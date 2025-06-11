@@ -10,8 +10,8 @@ import { EMAIL_REGEX, routes } from '@utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	clearError,
+	getLoadingStatus,
 	getUserError,
-	getUserLoading,
 	login,
 } from '@store/user-slice';
 import useFormValidator from '@/hooks/useFormValidator';
@@ -19,7 +19,7 @@ import useFormValidator from '@/hooks/useFormValidator';
 const Login = () => {
 	const dispatch = useDispatch();
 	const userError = useSelector(getUserError);
-	const isLoading = useSelector(getUserLoading);
+	const { login: isLoading } = useSelector(getLoadingStatus);
 
 	const { inputValues, isValid, handleChange } = useFormValidator({
 		email: '',

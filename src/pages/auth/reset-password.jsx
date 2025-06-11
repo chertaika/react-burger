@@ -27,7 +27,7 @@ const ResetPassword = () => {
 		e.preventDefault();
 		try {
 			await apiResetPassword(inputValues);
-			navigate(routes.LOGIN, {});
+			navigate(routes.LOGIN);
 		} catch (error) {
 			console.log(error);
 			setRequestError(error.message);

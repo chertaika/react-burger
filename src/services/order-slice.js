@@ -18,7 +18,7 @@ export const createOrder = createAsyncThunk(
 			return await createOrderRequest(ingredients);
 		} catch (error) {
 			console.log(error);
-			return rejectWithValue(error);
+			return rejectWithValue(`${error.message}: Статус ${error.status}`);
 		}
 	}
 );

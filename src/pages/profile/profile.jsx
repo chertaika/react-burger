@@ -2,11 +2,12 @@ import React from 'react';
 import styles from './profile.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import { routes } from '@utils/constants';
-import { useDispatch } from 'react-redux';
-import { logout } from '@store/user-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getLoadingStatus, logout } from '@store/user-slice';
 
 const Profile = () => {
 	const dispatch = useDispatch();
+	const { logout: isLoading } = useSelector(getLoadingStatus);
 
 	const handleLogout = () => {
 		dispatch(logout());
@@ -38,7 +39,11 @@ const Profile = () => {
 						<button
 							className={`${styles.nav_link} text text_type_main-medium text_color_inactive`}
 							onClick={handleLogout}>
-							Выход
+							{isLoading ? (
+								<span className={'loading'}>Выход...</span>
+							) : (
+								'Выход'
+							)}
 						</button>
 					</li>
 					<p
