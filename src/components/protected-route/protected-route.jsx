@@ -4,6 +4,7 @@ import { getIsAuthChecked, getUserInfo } from '@store/user-slice';
 import { Navigate, useLocation } from 'react-router-dom';
 import { routes } from '@utils/constants';
 import Preloader from '@components/preloader/preloader';
+import * as PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ forUnauthenticatedOnly = false, children }) => {
 	const user = useSelector(getUserInfo);
@@ -24,6 +25,11 @@ const ProtectedRoute = ({ forUnauthenticatedOnly = false, children }) => {
 	}
 
 	return children;
+};
+
+ProtectedRoute.propTypes = {
+	forUnauthenticatedOnly: PropTypes.bool,
+	children: PropTypes.node.isRequired,
 };
 
 export default ProtectedRoute;
