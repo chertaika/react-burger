@@ -2,9 +2,18 @@ import styles from './ingredient-details.module.css';
 import { useState } from 'react';
 import Preloader from '@components/preloader/preloader.jsx';
 import imageError from '@images/no-photo.svg';
-import { ingredientPropType } from '@utils/prop-types.js';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getAllIngredients } from '@store/ingredients-slice';
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+	const { id } = useParams();
+	const ingredients = useSelector(getAllIngredients);
+
+	const currentIngredient = ingredients.find(
+		(ingredient) => ingredient._id === id
+	);
+
 	const [isImageError, setIsImageError] = useState(false);
 	const [isImageLoading, setIsImageLoading] = useState(true);
 
@@ -26,47 +35,43 @@ const IngredientDetails = ({ ingredient }) => {
 				)}
 				<img
 					className={isImageError ? styles.no_image : styles.image}
-					src={isImageError ? imageError : `${ingredient.image_large}`}
-					alt={isImageError ? 'no image' : ingredient.name}
+					src={isImageError ? imageError : `${currentIngredient?.image_large}`}
+					alt={isImageError ? 'no image' : name}
 					onLoad={handleImageLoading}
 					onError={handleImageError}
 				/>
 			</div>
 			<span className={`${styles.title} text text_type_main-medium mt-4 mb-8`}>
-				{ingredient.name}
+				{currentIngredient?.name}
 			</span>
 			<ul className={styles.nutrition}>
 				<li className={styles.nutrition_item}>
 					<span className={'text text_type_main-default'}>Калории, ккал</span>
 					<span className={'text text_type_main-default'}>
-						{ingredient.calories}
+						{currentIngredient?.calories}
 					</span>
 				</li>
 				<li className={styles.nutrition_item}>
 					<span className={'text text_type_main-default'}>Белки, г</span>
 					<span className={'text text_type_main-default'}>
-						{ingredient.proteins}
+						{currentIngredient?.proteins}
 					</span>
 				</li>
 				<li className={styles.nutrition_item}>
 					<span className={'text text_type_main-default'}>Жиры, г</span>
 					<span className={'text text_type_main-default'}>
-						{ingredient.fat}
+						{currentIngredient?.fat}
 					</span>
 				</li>
 				<li className={styles.nutrition_item}>
 					<span className={'text text_type_main-default'}>Углеводы, г</span>
 					<span className={'text text_type_main-default'}>
-						{ingredient.carbohydrates}
+						{currentIngredient?.carbohydrates}
 					</span>
 				</li>
 			</ul>
 		</div>
 	);
-};
-
-IngredientDetails.propTypes = {
-	ingredient: ingredientPropType.isRequired,
 };
 
 export default IngredientDetails;

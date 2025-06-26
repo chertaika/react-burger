@@ -21,16 +21,27 @@ import {
 import Preloader from '@components/preloader/preloader';
 import ErrorBanner from '@components/error-banner/error-banner';
 import * as PropTypes from 'prop-types';
+import { getUserInfo } from '@store/user-slice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { routes } from '@utils/constants';
 
 const OrderCheckout = ({ isDisabledButton }) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const location = useLocation();
+
 	const totalPrice = useSelector(getTotalPrice);
 	const orderNumber = useSelector(getOrderNumber);
 	const isLoading = useSelector(getOrderLoading);
 	const errorMessage = useSelector(getOrderErrorMessage);
+	const user = useSelector(getUserInfo);
 
 	const handleSendOrder = () => {
-		dispatch(createOrder());
+		if (user) {
+			dispatch(createOrder());
+		} else {
+			navigate(routes.LOGIN, { state: { from: location } });
+		}
 	};
 
 	const handleCloseModal = () => {
@@ -57,7 +68,7 @@ const OrderCheckout = ({ isDisabledButton }) => {
 					disabled={isDisabledButton || isLoading}
 					children={isLoading && <Preloader />}>
 					{isLoading ? (
-						<span className={styles.loading}>Отправляется...</span>
+						<span className={'loading'}>Отправляется...</span>
 					) : (
 						'Оформить заказ'
 					)}

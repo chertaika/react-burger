@@ -22,10 +22,23 @@
 	color: var(--text-inactive-color);
 	text-decoration: none;
 	border-radius: 40px;
+	transition: var(--common-transition);
+}
+
+.link svg {
+	transition: var(--common-transition);
+}
+
+.link:not(.link_active):hover {
+	opacity: 0.7;
 }
 
 .link_active {
 	color: var(--text-primary-light-color);
+}
+
+.link_active:hover {
+	cursor: default;
 }
 
 .link_position_last {

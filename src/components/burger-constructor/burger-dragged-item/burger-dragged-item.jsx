@@ -8,6 +8,8 @@ import { moveFilling, removeFilling } from '@store/burger-constructor-slice';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { dragTypes } from '@utils/constants';
+import * as PropTypes from 'prop-types';
+import { ingredientPropType } from '@utils/prop-types';
 
 const BurgerDraggedItem = ({ item, index }) => {
 	const dispatch = useDispatch();
@@ -74,6 +76,11 @@ const BurgerDraggedItem = ({ item, index }) => {
 			/>
 		</article>
 	);
+};
+
+BurgerDraggedItem.propTypes = {
+	index: PropTypes.number.isRequired,
+	item: ingredientPropType.isRequired,
 };
 
 export default BurgerDraggedItem;
