@@ -53,6 +53,7 @@ const ResetPassword = () => {
 					required
 					minLength={6}
 					placeholder={'Введите новый пароль'}
+					autoComplete={'new-password'}
 				/>
 				<Input
 					name={'token'}

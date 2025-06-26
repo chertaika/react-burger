@@ -47,6 +47,7 @@ const Login = () => {
 					onChange={handleChange}
 					pattern={EMAIL_REGEX}
 					required
+					autoComplete={'email'}
 				/>
 				<PasswordInput
 					name={'password'}
@@ -54,6 +55,7 @@ const Login = () => {
 					onChange={handleChange}
 					required
 					minLength={6}
+					autoComplete={'current-password'}
 				/>
 				<Button
 					type={'primary'}

@@ -24,7 +24,7 @@ const ingredientsSlice = createSlice({
 	initialState: initialState,
 	selectors: {
 		getAllIngredients: (state) => state.ingredients,
-		getIngredientsLoading: (state) => state.loading,
+		getIngredientsLoading: (state) => state.isLoading,
 		getIngredientsError: (state) => state.errorMessage,
 	},
 	reducers: {},

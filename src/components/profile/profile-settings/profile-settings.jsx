@@ -66,6 +66,7 @@ const ProfileSettings = () => {
 				onBlur={() => setIsDisabledNameInput(true)}
 				required
 				checked
+				autoComplete={'nickname'}
 			/>
 			<EmailInput
 				name={'email'}
@@ -75,6 +76,7 @@ const ProfileSettings = () => {
 				errorText={errorMessages.email}
 				isIcon
 				required
+				autoComplete={'email'}
 			/>
 			<PasswordInput
 				name={'password'}
@@ -83,6 +85,7 @@ const ProfileSettings = () => {
 				icon={'EditIcon'}
 				minLength={6}
 				errorText={errorMessages.password}
+				autoComplete={'new-password'}
 			/>
 
 			{isValuesChanged && (

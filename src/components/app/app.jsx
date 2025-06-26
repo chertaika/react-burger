@@ -46,85 +46,89 @@ export const App = () => {
 		navigate(-1);
 	};
 
-	return (
-		<div className={styles.app}>
-			{isLoading ? (
-				<Preloader />
-			) : errorMessage ? (
-				<ErrorBanner text={errorMessage} />
-			) : (
-				ingredients?.length > 0 && (
-					<>
-						<AppHeader />
-						<Routes location={background || location}>
-							<Route path={routes.HOME} element={<Home />} />
-							<Route
-								path={routes.LOGIN}
-								element={
-									<ProtectedRoute forUnauthenticatedOnly={true}>
-										<Login />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path={routes.REGISTER}
-								element={
-									<ProtectedRoute forUnauthenticatedOnly={true}>
-										<Registration />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path={routes.RESET_PASSWORD}
-								element={
-									<ProtectedRoute forUnauthenticatedOnly={true}>
-										<ResetPassword />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path={routes.FORGOT_PASSWORD}
-								element={
-									<ProtectedRoute forUnauthenticatedOnly={true}>
-										<ForgotPassword />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path={routes.PROFILE}
-								element={
-									<ProtectedRoute>
-										<Profile />
-									</ProtectedRoute>
-								}>
-								<Route index element={<ProfileSettings />} />
-								<Route
-									path={routes.PROFILE_ORDERS}
-									element={<UnderDevelopment />}
-								/>
-							</Route>
-							<Route path={routes.INGREDIENT} element={<Ingredient />} />
-							<Route path={routes.FEED} element={<UnderDevelopment />} />
-							<Route path='*' element={<NotFound />} />
-						</Routes>
+	const renderContent = () => {
+		if (isLoading) {
+			return <Preloader />;
+		}
 
-						{background && (
-							<Routes>
-								<Route
-									path={routes.INGREDIENT}
-									element={
-										<Modal
-											onClose={handleModalClose}
-											title={'Детали ингредиента'}>
-											<IngredientDetails />
-										</Modal>
-									}
-								/>
-							</Routes>
-						)}
-					</>
-				)
-			)}
-		</div>
-	);
+		if (errorMessage) {
+			return <ErrorBanner text={errorMessage} />;
+		}
+
+		if (!ingredients?.length) {
+			return null;
+		}
+
+		return (
+			<>
+				<AppHeader />
+				<Routes location={background || location}>
+					<Route path={routes.HOME} element={<Home />} />
+					<Route
+						path={routes.LOGIN}
+						element={
+							<ProtectedRoute forUnauthenticatedOnly={true}>
+								<Login />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={routes.REGISTER}
+						element={
+							<ProtectedRoute forUnauthenticatedOnly={true}>
+								<Registration />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={routes.RESET_PASSWORD}
+						element={
+							<ProtectedRoute forUnauthenticatedOnly={true}>
+								<ResetPassword />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={routes.FORGOT_PASSWORD}
+						element={
+							<ProtectedRoute forUnauthenticatedOnly={true}>
+								<ForgotPassword />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={routes.PROFILE}
+						element={
+							<ProtectedRoute>
+								<Profile />
+							</ProtectedRoute>
+						}>
+						<Route index element={<ProfileSettings />} />
+						<Route
+							path={routes.PROFILE_ORDERS}
+							element={<UnderDevelopment />}
+						/>
+					</Route>
+					<Route path={routes.INGREDIENT} element={<Ingredient />} />
+					<Route path={routes.FEED} element={<UnderDevelopment />} />
+					<Route path='*' element={<NotFound />} />
+				</Routes>
+
+				{background && (
+					<Routes>
+						<Route
+							path={routes.INGREDIENT}
+							element={
+								<Modal onClose={handleModalClose} title={'Детали ингредиента'}>
+									<IngredientDetails />
+								</Modal>
+							}
+						/>
+					</Routes>
+				)}
+			</>
+		);
+	};
+
+	return <div className={styles.app}>{renderContent()}</div>;
 };

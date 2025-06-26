@@ -48,6 +48,7 @@ const ForgotPassword = () => {
 					pattern={EMAIL_REGEX}
 					placeholder={'Укажите e-mail'}
 					required
+					autoComplete={'email'}
 				/>
 				<Button
 					type={'primary'}

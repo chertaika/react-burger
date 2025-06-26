@@ -53,6 +53,7 @@ const Registration = () => {
 					required
 					error={errorMessages?.name?.length > 0}
 					errorText={errorMessages.name}
+					autoComplete={'nickname'}
 				/>
 				<EmailInput
 					name={'email'}
@@ -61,6 +62,7 @@ const Registration = () => {
 					required
 					pattern={EMAIL_REGEX}
 					errorText={errorMessages.email}
+					autoComplete={'email'}
 				/>
 				<PasswordInput
 					name={'password'}
@@ -69,6 +71,7 @@ const Registration = () => {
 					required
 					errorText={errorMessages.password}
 					minLength={6}
+					autoComplete={'new-password'}
 				/>
 				<Button
 					type={'primary'}
