@@ -7,7 +7,7 @@ const useFormValidator = <T extends Record<string, string | number>>(
 	const [errorMessages, setErrorMessages] = useState<
 		Partial<Record<keyof T, string>>
 	>({});
-	const [isValid, setIsValid] = useState(false);
+	const [isValid, setIsValid] = useState<boolean>(false);
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = event.target;

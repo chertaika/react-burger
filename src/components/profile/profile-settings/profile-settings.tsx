@@ -31,7 +31,7 @@ const ProfileSettings = () => {
 		});
 
 	const nameInputRef = useRef<HTMLInputElement>(null);
-	const [isDisabledNameInput, setIsDisabledNameInput] = useState(true);
+	const [isDisabledNameInput, setIsDisabledNameInput] = useState<boolean>(true);
 
 	const isValuesChanged =
 		(Object.keys(user) as Array<keyof TUser>).some(

@@ -12,8 +12,8 @@ import { TUser } from '@utils/types';
 
 const ForgotPassword = (): JSX.Element => {
 	const navigate = useNavigate();
-	const [requestError, setRequestError] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
+	const [requestError, setRequestError] = useState<string>('');
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const { inputValues, errorMessages, isValid, handleChange } =
 		useFormValidator<TUser>({

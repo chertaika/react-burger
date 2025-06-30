@@ -20,8 +20,8 @@ const BurgerIngredients = () => {
 	const ingredientsCount: TIngredientsCount = useSelector(getIngredientsCount);
 	const ingredients: TIngredients = useSelector(getAllIngredients);
 
-	const [activeType, setActiveType] = useState(
-		Object.keys(ingredientTypeTranslations)[0]
+	const [activeType, setActiveType] = useState<TIngredientType>(
+		(Object.keys(ingredientTypeTranslations) as Array<TIngredientType>)[0]
 	);
 
 	const groupRefs = useRef<TRef>({

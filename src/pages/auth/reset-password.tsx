@@ -14,8 +14,8 @@ import { TResetPassword } from '@utils/types';
 const ResetPassword = (): JSX.Element => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const [requestError, setRequestError] = useState('');
-	const [isLoading, setIsLoading] = useState(false);
+	const [requestError, setRequestError] = useState<string>('');
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const { inputValues, errorMessages, isValid, handleChange } =
 		useFormValidator<TResetPassword>({
