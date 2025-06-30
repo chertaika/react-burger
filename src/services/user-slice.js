@@ -6,6 +6,7 @@ import {
 	apiLogout,
 	apiRegisterUser,
 } from '@utils/api';
+import { errorMessages } from '@utils/constants';
 
 export const checkUserAuth = createAsyncThunk(
 	'user/checkUserAuth',
@@ -37,8 +38,8 @@ export const register = createAsyncThunk(
 		} catch (error) {
 			const errorMessage =
 				error.status === 403
-					? `${error.message}: пользователь с таким email уже существует `
-					: `${error.message}: Статус ${error.status}`;
+					? 'Пользователь с таким email уже существует'
+					: error.message || errorMessages.REGISTER;
 			return rejectWithValue(errorMessage);
 		}
 	}
@@ -55,8 +56,8 @@ export const login = createAsyncThunk(
 		} catch (error) {
 			const errorMessage =
 				error.status === 401
-					? `${error.message}: неверный логин или пароль`
-					: `${error.message}: Статус ${error.status}`;
+					? 'Неверный логин или пароль'
+					: error.message || errorMessages.LOGIN;
 			return rejectWithValue(errorMessage);
 		}
 	}
@@ -70,7 +71,7 @@ export const logout = createAsyncThunk(
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 		} catch (error) {
-			return rejectWithValue(`${error.message}: Статус ${error.status}`);
+			return rejectWithValue(error.message);
 		}
 	}
 );
@@ -82,7 +83,7 @@ export const changeUserInfo = createAsyncThunk(
 			const { user } = await apiChangeUserInfo(userInfo);
 			dispatch(setUser(user));
 		} catch (error) {
-			return rejectWithValue(`${error.message}: Статус ${error.status}`);
+			return rejectWithValue(error.message || errorMessages.EDIT_USER);
 		}
 	}
 );

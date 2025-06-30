@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiGetInitialData } from '@utils/api';
+import { errorMessages } from '@utils/constants';
 
 export const getIngredients = createAsyncThunk(
 	'ingredients/getIngredients',
@@ -8,14 +9,14 @@ export const getIngredients = createAsyncThunk(
 			const response = await apiGetInitialData();
 			return response.data;
 		} catch (error) {
-			return rejectWithValue(error);
+			return rejectWithValue(error.message || errorMessages.GET_INGREDIENTS);
 		}
 	}
 );
 
 const initialState = {
 	ingredients: [],
-	isLoading: false,
+	isLoading: true,
 	errorMessage: null,
 };
 
