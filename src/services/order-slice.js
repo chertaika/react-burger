@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createOrderRequest } from '@utils/api';
 import { getBun, getFillings } from '@store/burger-constructor-slice';
+import { errorMessages } from '@utils/constants';
 
 export const createOrder = createAsyncThunk(
 	'order/createOrder',
@@ -18,7 +19,7 @@ export const createOrder = createAsyncThunk(
 			return await createOrderRequest(ingredients);
 		} catch (error) {
 			console.log(error);
-			return rejectWithValue(`${error.message}: Статус ${error.status}`);
+			return rejectWithValue(error.message || errorMessages.CREATE_ORDER);
 		}
 	}
 );
