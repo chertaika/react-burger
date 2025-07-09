@@ -1,7 +1,6 @@
 import styles from './burger-constructor.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	addBun,
 	addFilling,
@@ -15,11 +14,12 @@ import { dragTypes } from '@utils/constants';
 import OrderCheckout from '@components/burger-constructor/order-checkout/order-checkout';
 import { TBun, TFillings, TIngredient } from '@utils/types';
 import { JSX } from 'react';
+import { useAppDispatch, useAppSelector } from '@store/store';
 
 const BurgerConstructor = (): JSX.Element => {
-	const dispatch = useDispatch();
-	const fillings: TFillings = useSelector(getFillings);
-	const bun: TBun = useSelector(getBun);
+	const dispatch = useAppDispatch();
+	const fillings: TFillings = useAppSelector(getFillings);
+	const bun: TBun = useAppSelector(getBun);
 
 	const isEmpty: boolean = !bun && fillings.length === 0;
 

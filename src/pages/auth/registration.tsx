@@ -8,7 +8,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { EMAIL_REGEX, routes } from '@utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	clearError,
 	getLoadingStatus,
@@ -18,12 +17,13 @@ import {
 } from '@store/user-slice';
 import useFormValidator from '@/hooks/useFormValidator';
 import { TUserLoadingStates, TUserWithPassword } from '@utils/types';
+import { useAppDispatch, useAppSelector } from '@store/store';
 
 const Registration = (): JSX.Element => {
-	const dispatch = useDispatch();
-	const userError: string = useSelector(getUserError);
+	const dispatch = useAppDispatch();
+	const userError: string = useAppSelector(getUserError);
 	const { register: isLoading }: TUserLoadingStates =
-		useSelector(getLoadingStatus);
+		useAppSelector(getLoadingStatus);
 
 	const { inputValues, isValid, handleChange, errorMessages } =
 		useFormValidator<TUserWithPassword>({

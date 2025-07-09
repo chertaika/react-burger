@@ -14,7 +14,6 @@ import {
 	resetOrder,
 	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/order-slice
 } from '@store/order-slice';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	getTotalPrice,
 	resetConstructor,
@@ -27,6 +26,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '@utils/constants';
 import { JSX } from 'react';
 import { TUser } from '@utils/types';
+import { useAppDispatch, useAppSelector } from '@store/store';
 
 type TOrderCheckoutProps = {
 	isDisabledButton: boolean;
@@ -35,15 +35,15 @@ type TOrderCheckoutProps = {
 const OrderCheckout = ({
 	isDisabledButton,
 }: TOrderCheckoutProps): JSX.Element => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const totalPrice: number = useSelector(getTotalPrice);
-	const orderNumber: number = useSelector(getOrderNumber);
-	const isLoading: boolean = useSelector(getOrderLoading);
-	const errorMessage: string = useSelector(getOrderErrorMessage);
-	const user: TUser = useSelector(getUserInfo);
+	const totalPrice: number = useAppSelector(getTotalPrice);
+	const orderNumber: number = useAppSelector(getOrderNumber);
+	const isLoading: boolean = useAppSelector(getOrderLoading);
+	const errorMessage: string = useAppSelector(getOrderErrorMessage);
+	const user: TUser = useAppSelector(getUserInfo);
 
 	const handleSendOrder = (): void => {
 		if (user) {

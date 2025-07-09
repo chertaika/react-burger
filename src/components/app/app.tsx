@@ -3,12 +3,10 @@ import styles from './app.module.css';
 import AppHeader from '@components/app-header/app-header';
 import Preloader from '@components/preloader/preloader';
 import ErrorBanner from '@components/error-banner/error-banner';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	getIngredients,
 	getIngredientsError,
 	getIngredientsLoading,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/ingredients-slice
 } from '@store/ingredients-slice';
 import {
 	Route,
@@ -33,11 +31,12 @@ import UnderDevelopment from '@components/under-development/under-development';
 import ProtectedRoute from '@components/protected-route/protected-route';
 // @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { checkUserAuth } from '@store/user-slice';
+import { useAppDispatch, useAppSelector } from '@store/store';
 
 export const App = (): JSX.Element => {
-	const dispatch = useDispatch();
-	const isLoading: boolean = useSelector(getIngredientsLoading);
-	const errorMessage: string = useSelector(getIngredientsError);
+	const dispatch = useAppDispatch();
+	const isLoading = useAppSelector(getIngredientsLoading);
+	const errorMessage = useAppSelector(getIngredientsError);
 
 	useEffect(() => {
 		dispatch(checkUserAuth(dispatch));

@@ -7,7 +7,6 @@ import {
 	PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import useFormValidator from '@/hooks/useFormValidator';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	changeUserInfo,
 	clearError,
@@ -17,13 +16,14 @@ import {
 	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 } from '@store/user-slice';
 import { TUser, TUserLoadingStates, TUserWithPassword } from '@utils/types';
+import { useAppDispatch, useAppSelector } from '@store/store';
 
 const ProfileSettings = () => {
-	const dispatch = useDispatch();
-	const user: TUser = useSelector(getUserInfo);
-	const userError: string = useSelector(getUserError);
+	const dispatch = useAppDispatch();
+	const user: TUser = useAppSelector(getUserInfo);
+	const userError: string = useAppSelector(getUserError);
 	const { changeUserInfo: isLoading }: TUserLoadingStates =
-		useSelector(getLoadingStatus);
+		useAppSelector(getLoadingStatus);
 	const { inputValues, isValid, handleChange, errorMessages, resetForm } =
 		useFormValidator<TUserWithPassword>({
 			...user,
