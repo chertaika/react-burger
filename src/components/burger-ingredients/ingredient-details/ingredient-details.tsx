@@ -4,12 +4,11 @@ import Preloader from '@components/preloader/preloader';
 import imageError from '@images/no-photo.svg';
 import { useParams } from 'react-router-dom';
 import { getAllIngredients } from '@store/ingredients-slice';
-import { TIngredients } from '@utils/types';
-import { useAppSelector } from '@store/store';
+import { useAppSelector } from '@store/hooks';
 
 const IngredientDetails = (): JSX.Element => {
 	const { id } = useParams();
-	const ingredients: TIngredients = useAppSelector(getAllIngredients);
+	const ingredients = useAppSelector(getAllIngredients);
 
 	const currentIngredient = ingredients.find(
 		(ingredient) => ingredient._id === id

@@ -2,29 +2,41 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createOrderRequest } from '@utils/api';
 import { getBun, getFillings } from '@store/burger-constructor-slice';
 import { errorMessages } from '@utils/constants';
+import {
+	TErrorResponseData,
+	TOrderResponse,
+	TOrderSliceState,
+} from '@utils/types';
+import { RootState } from '@store/hooks';
 
-export const createOrder = createAsyncThunk(
-	'order/createOrder',
-	async (_, { getState, rejectWithValue }) => {
-		try {
-			const state = getState();
-			const bun = getBun(state);
-			const fillings = getFillings(state);
-
-			const ingredients = [
-				...(bun ? [bun._id, bun._id] : []),
-				...fillings.map((filling) => filling._id),
-			];
-
-			return await createOrderRequest(ingredients);
-		} catch (error) {
-			console.log(error);
-			return rejectWithValue(error.message || errorMessages.CREATE_ORDER);
-		}
+export const createOrder = createAsyncThunk<
+	TOrderResponse,
+	void,
+	{
+		state: RootState;
+		rejectValue: string;
 	}
-);
+>('order/createOrder', async (_, { getState, rejectWithValue }) => {
+	try {
+		const state = getState();
+		const bun = getBun(state);
+		const fillings = getFillings(state);
 
-const initialState = {
+		const ingredients = [
+			...(bun ? [bun._id, bun._id] : []),
+			...fillings.map((filling) => filling._id),
+		];
+
+		return await createOrderRequest(ingredients);
+	} catch (error) {
+		console.log(error);
+		return rejectWithValue(
+			(error as TErrorResponseData).message || errorMessages.CREATE_ORDER
+		);
+	}
+});
+
+const initialState: TOrderSliceState = {
 	orderNumber: null,
 	orderName: null,
 	isLoading: false,
@@ -36,7 +48,6 @@ const orderSlice = createSlice({
 	initialState: initialState,
 	selectors: {
 		getOrderNumber: (state) => state.orderNumber,
-		getOrderName: (state) => state.orderName,
 		getOrderLoading: (state) => state.isLoading,
 		getOrderErrorMessage: (state) => state.errorMessage,
 	},
@@ -61,7 +72,6 @@ const orderSlice = createSlice({
 				state.orderName = action.payload.name;
 			})
 			.addCase(createOrder.rejected, (state, action) => {
-				resetOrder(state);
 				state.isLoading = false;
 				state.errorMessage = action.payload;
 			});
@@ -69,10 +79,6 @@ const orderSlice = createSlice({
 });
 
 export const { resetOrder, clearError } = orderSlice.actions;
-export const {
-	getOrderNumber,
-	getOrderName,
-	getOrderLoading,
-	getOrderErrorMessage,
-} = orderSlice.selectors;
+export const { getOrderNumber, getOrderLoading, getOrderErrorMessage } =
+	orderSlice.selectors;
 export default orderSlice.reducer;

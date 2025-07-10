@@ -8,9 +8,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
 import { routes } from '@utils/constants';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { getUserInfo } from '@store/user-slice';
-import { useAppSelector } from '@store/store';
+import { useAppSelector } from '@store/hooks';
 
 const AppHeader = (): JSX.Element => {
 	const user = useAppSelector(getUserInfo);

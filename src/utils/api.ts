@@ -2,7 +2,6 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { api } from '@utils/constants';
 import {
 	TErrorResponseData,
-	TIngredients,
 	TIngredientsResponse,
 	TOrderResponse,
 	TResetPassword,
@@ -74,7 +73,7 @@ export const apiGetInitialData = (): Promise<TIngredientsResponse> =>
 	$api.get(api.INGREDIENTS_URL);
 
 export const createOrderRequest = (
-	ingredients: TIngredients
+	ingredients: Array<string>
 ): Promise<TOrderResponse> => $api.post(api.CREATE_ORDER_URL, { ingredients });
 
 export const apiGetUser = (): Promise<TUserResponse> => $api.get(api.USER_URL);

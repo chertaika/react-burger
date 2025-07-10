@@ -4,13 +4,12 @@ import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/burger-constructor-slice
 import { moveFilling, removeFilling } from '@store/burger-constructor-slice';
 import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
 import { dragTypes } from '@utils/constants';
+import { useAppDispatch } from '@store/hooks';
 import { TDraggedIngredient } from '@utils/types';
-import { useAppDispatch } from '@store/store';
 
 type TBurgerDraggedItemProps = {
 	item: TDraggedIngredient;

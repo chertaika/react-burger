@@ -12,21 +12,17 @@ import {
 	getOrderLoading,
 	getOrderNumber,
 	resetOrder,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/order-slice
 } from '@store/order-slice';
 import {
 	getTotalPrice,
 	resetConstructor,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/burger-constructor-slice
 } from '@store/burger-constructor-slice';
 import ErrorBanner from '@components/error-banner/error-banner';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { getUserInfo } from '@store/user-slice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '@utils/constants';
 import { JSX } from 'react';
-import { TUser } from '@utils/types';
-import { useAppDispatch, useAppSelector } from '@store/store';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 type TOrderCheckoutProps = {
 	isDisabledButton: boolean;
@@ -39,11 +35,11 @@ const OrderCheckout = ({
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const totalPrice: number = useAppSelector(getTotalPrice);
-	const orderNumber: number = useAppSelector(getOrderNumber);
-	const isLoading: boolean = useAppSelector(getOrderLoading);
-	const errorMessage: string = useAppSelector(getOrderErrorMessage);
-	const user: TUser = useAppSelector(getUserInfo);
+	const totalPrice = useAppSelector(getTotalPrice);
+	const orderNumber = useAppSelector(getOrderNumber);
+	const isLoading = useAppSelector(getOrderLoading);
+	const errorMessage = useAppSelector(getOrderErrorMessage);
+	const user = useAppSelector(getUserInfo);
 
 	const handleSendOrder = (): void => {
 		if (user) {

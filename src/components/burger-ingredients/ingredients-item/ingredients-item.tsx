@@ -6,8 +6,8 @@ import {
 import { useDrag } from 'react-dnd';
 import { dragTypes, routes } from '@utils/constants';
 import { Link, useLocation } from 'react-router-dom';
-import { TIngredient } from '@utils/types';
 import { JSX } from 'react';
+import { TIngredient } from '@utils/types';
 
 type TIngredientsItemProps = {
 	count: number;

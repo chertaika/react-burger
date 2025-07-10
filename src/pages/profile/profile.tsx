@@ -1,16 +1,13 @@
 import styles from './profile.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import { routes } from '@utils/constants';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { getLoadingStatus, logout } from '@store/user-slice';
-import { TUserLoadingStates } from '@utils/types';
 import { JSX } from 'react';
-import { useAppDispatch, useAppSelector } from '@store/store';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const Profile = (): JSX.Element => {
 	const dispatch = useAppDispatch();
-	const { logout: isLoading }: TUserLoadingStates =
-		useAppSelector(getLoadingStatus);
+	const { logout: isLoading } = useAppSelector(getLoadingStatus);
 
 	const handleLogout = (): void => {
 		dispatch(logout());

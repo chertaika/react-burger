@@ -29,9 +29,8 @@ import { routes } from '@utils/constants';
 import Home from '@pages/home/home';
 import UnderDevelopment from '@components/under-development/under-development';
 import ProtectedRoute from '@components/protected-route/protected-route';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { checkUserAuth } from '@store/user-slice';
-import { useAppDispatch, useAppSelector } from '@store/store';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 export const App = (): JSX.Element => {
 	const dispatch = useAppDispatch();
@@ -39,7 +38,7 @@ export const App = (): JSX.Element => {
 	const errorMessage = useAppSelector(getIngredientsError);
 
 	useEffect(() => {
-		dispatch(checkUserAuth(dispatch));
+		dispatch(checkUserAuth());
 		dispatch(getIngredients());
 	}, [dispatch]);
 

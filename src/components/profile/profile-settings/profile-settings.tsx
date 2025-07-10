@@ -13,30 +13,29 @@ import {
 	getLoadingStatus,
 	getUserError,
 	getUserInfo,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 } from '@store/user-slice';
 import { TUser, TUserLoadingStates, TUserWithPassword } from '@utils/types';
-import { useAppDispatch, useAppSelector } from '@store/store';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const ProfileSettings = () => {
 	const dispatch = useAppDispatch();
-	const user: TUser = useAppSelector(getUserInfo);
-	const userError: string = useAppSelector(getUserError);
+	const user = useAppSelector(getUserInfo);
+	const userError = useAppSelector(getUserError);
 	const { changeUserInfo: isLoading }: TUserLoadingStates =
 		useAppSelector(getLoadingStatus);
 	const { inputValues, isValid, handleChange, errorMessages, resetForm } =
-		useFormValidator<TUserWithPassword>({
-			...user,
-			password: '',
-		});
+		useFormValidator<TUserWithPassword>(
+			user ? { ...user, password: '' } : { email: '', name: '', password: '' }
+		);
 
 	const nameInputRef = useRef<HTMLInputElement>(null);
 	const [isDisabledNameInput, setIsDisabledNameInput] = useState<boolean>(true);
 
-	const isValuesChanged =
-		(Object.keys(user) as Array<keyof TUser>).some(
-			(key) => user[key] !== inputValues[key]
-		) || inputValues.password.length > 0;
+	const isValuesChanged = user
+		? (Object.keys(user) as Array<keyof TUser>).some(
+				(key) => user[key] !== inputValues[key]
+			) || inputValues.password.length > 0
+		: Object.values(inputValues).some((value) => value.length > 0);
 
 	const handleEditIconClick = () => {
 		setIsDisabledNameInput(false);

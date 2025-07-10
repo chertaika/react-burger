@@ -13,15 +13,14 @@ import {
 	getLoadingStatus,
 	getUserError,
 	register,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 } from '@store/user-slice';
 import useFormValidator from '@/hooks/useFormValidator';
 import { TUserLoadingStates, TUserWithPassword } from '@utils/types';
-import { useAppDispatch, useAppSelector } from '@store/store';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const Registration = (): JSX.Element => {
 	const dispatch = useAppDispatch();
-	const userError: string = useAppSelector(getUserError);
+	const userError = useAppSelector(getUserError);
 	const { register: isLoading }: TUserLoadingStates =
 		useAppSelector(getLoadingStatus);
 

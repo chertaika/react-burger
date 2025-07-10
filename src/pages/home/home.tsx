@@ -6,11 +6,10 @@ import BurgerConstructor from '@components/burger-constructor/burger-constructor
 import NoIngredients from '@pages/no-ingredients/no-ingredients';
 import { getAllIngredients } from '@store/ingredients-slice';
 import { JSX } from 'react';
-import { TIngredients } from '@utils/types';
-import { useAppSelector } from '@store/store';
+import { useAppSelector } from '@store/hooks';
 
 const Home = (): JSX.Element => {
-	const ingredients: TIngredients = useAppSelector(getAllIngredients);
+	const ingredients = useAppSelector(getAllIngredients);
 
 	if (ingredients?.length === 0) {
 		return <NoIngredients />;

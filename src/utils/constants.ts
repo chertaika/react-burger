@@ -33,6 +33,7 @@ export const errorMessages = {
 	EDIT_USER: 'Ошибка изменения данных',
 	CREATE_ORDER: 'Ошибка создания заказа',
 	LOGIN: 'Ошибка авторизации',
+	LOGOUT: 'Ошибка выхода из аккаунта',
 	REGISTER: 'Ошибка регистрации',
 	RESTORE_PASSWORD: 'Ошибка восстановления пароля',
 	RESET_PASSWORD: 'Ошибка обновления пароля',
