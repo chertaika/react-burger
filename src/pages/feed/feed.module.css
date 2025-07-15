@@ -12,5 +12,6 @@
 	display: grid;
 	grid-template-columns: minmax(auto, 600px) 1fr;
 	gap: calc(var(--offset-base-size) * 14);
+	height: 100%;
 	max-height: calc(100vh - 246px);
 }

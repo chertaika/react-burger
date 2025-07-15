@@ -3,7 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { getAllIngredients } from '@store/ingredients-slice';
 import Preloader from '@components/preloader/preloader';
-import { getOrder, getOrderByNumber, resetOrder } from '@store/order-slice';
+import {
+	getOrder,
+	getOrderByNumber,
+	getOrderLoading,
+	resetOrder,
+} from '@store/order-slice';
 import styles from './order-info.module.css';
 import { orderStatus } from '@utils/constants';
 import RoundImage from '@components/ui/round-image/round-image';
@@ -40,6 +45,7 @@ const OrderInfo = (): JSX.Element => {
 	}, [dispatch]);
 
 	const order = useAppSelector(getOrder);
+	const isOrderLoading = useAppSelector(getOrderLoading);
 
 	const ingredientCounts: TIngredientCounts | undefined =
 		order?.ingredients.reduce((acc: TIngredientCounts, id: string) => {
@@ -64,40 +70,52 @@ const OrderInfo = (): JSX.Element => {
 		return total + item.price * item.count;
 	}, 0);
 
-	if (!order) return <Preloader />;
+	if (isOrderLoading) return <Preloader />;
 
 	return (
 		<div className={styles.container}>
-			<h2 className={'text text_type_digits-default mb-10'}>#{order.number}</h2>
-			<p className={'text text_type_main-medium mb-2'}>{order.name}</p>
-			<p className={'text text_type_main-default text_color_success mb-15'}>
-				{orderStatus[order.status]}
-			</p>
-			<p className={'text text_type_main-medium mb-6'}>Состав:</p>
-			<div className={`${styles.ingredients} custom-scroll pr-6`}>
-				{ingredientsForDisplay.map((item) => (
-					<div key={item.id} className={styles.ingredient}>
-						<RoundImage src={item.image} alt={item.name} />
-						<span className={'text text_type_main-default'}>{item.name}</span>
+			{order ? (
+				<>
+					<h2 className={'text text_type_digits-default mb-10'}>
+						#{order?.number}
+					</h2>
+					<p className={'text text_type_main-medium mb-2'}>{order?.name}</p>
+					<p className={'text text_type_main-default text_color_success mb-15'}>
+						{orderStatus[order.status]}
+					</p>
+					<p className={'text text_type_main-medium mb-6'}>Состав:</p>
+					<div className={`${styles.ingredients} custom-scroll pr-6`}>
+						{ingredientsForDisplay.map((item) => (
+							<div key={item.id} className={styles.ingredient}>
+								<RoundImage src={item.image} alt={item.name} />
+								<span className={'text text_type_main-default'}>
+									{item.name}
+								</span>
+								<div
+									className={`${styles.ingredient_count} text text_type_digits-default`}>
+									<span>{item.count}</span>X<span>{item.price}</span>
+									<CurrencyIcon type={'primary'} />
+								</div>
+							</div>
+						))}
+					</div>
+					<div className={`${styles.price} mt-10`}>
+						<FormattedDate
+							date={new Date(order.createdAt)}
+							className={'text text_type_main-default text_color_inactive'}
+						/>
 						<div
 							className={`${styles.ingredient_count} text text_type_digits-default`}>
-							<span>{item.count}</span>X<span>{item.price}</span>
+							<span>{totalPrice}</span>
 							<CurrencyIcon type={'primary'} />
 						</div>
 					</div>
-				))}
-			</div>
-			<div className={`${styles.price} mt-10`}>
-				<FormattedDate
-					date={new Date(order.createdAt)}
-					className={'text text_type_main-default text_color_inactive'}
-				/>
-				<div
-					className={`${styles.ingredient_count} text text_type_digits-default`}>
-					<span>{totalPrice}</span>
-					<CurrencyIcon type={'primary'} />
-				</div>
-			</div>
+				</>
+			) : (
+				<p className={'text text_type_main-large text_color_primary'}>
+					Заказ не найден
+				</p>
+			)}
 		</div>
 	);
 };

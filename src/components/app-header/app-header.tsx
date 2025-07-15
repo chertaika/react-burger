@@ -6,7 +6,7 @@ import {
 	Logo,
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { routes } from '@utils/constants';
 import { getUserInfo } from '@store/user-slice';
 import { useAppSelector } from '@store/hooks';
@@ -45,7 +45,9 @@ const AppHeader = (): JSX.Element => {
 					</NavLink>
 				</div>
 				<div className={styles.logo}>
-					<Logo />
+					<Link to={routes.HOME} className={styles.link}>
+						<Logo />
+					</Link>
 				</div>
 				<div className={styles.link_position_last}>
 					{user ? (
