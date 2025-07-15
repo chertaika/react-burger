@@ -1,0 +1,22 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 60px;
+	height: 60px;
+	background-image:
+		linear-gradient(var(--background), var(--background)),
+		linear-gradient(
+			63.18deg,
+			var(--background-accent),
+			var(--colors-interface-accent)
+		);
+	background-clip: padding-box, border-box;
+	background-origin: padding-box, border-box;
+	border: 2px solid transparent;
+	border-radius: 50%;
+}
+
+.container img {
+	width: 112px;
+}

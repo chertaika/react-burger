@@ -8,9 +8,9 @@ import OrderDetails from '@components/burger-constructor/order-details/order-det
 import {
 	clearError,
 	createOrder,
+	getOrder,
 	getOrderErrorMessage,
 	getOrderLoading,
-	getOrderNumber,
 	resetOrder,
 } from '@store/order-slice';
 import {
@@ -36,7 +36,8 @@ const OrderCheckout = ({
 	const location = useLocation();
 
 	const totalPrice = useAppSelector(getTotalPrice);
-	const orderNumber = useAppSelector(getOrderNumber);
+	const order = useAppSelector(getOrder);
+	const orderNumber = order ? order.number : null;
 	const isLoading = useAppSelector(getOrderLoading);
 	const errorMessage = useAppSelector(getOrderErrorMessage);
 	const user = useAppSelector(getUserInfo);

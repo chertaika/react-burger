@@ -3,6 +3,7 @@
 	flex-direction: column;
 	gap: calc(var(--offset-base-size) * 6);
 	max-width: 480px;
+	margin-top: calc(var(--offset-base-size) * 21);
 }
 
 .actions {

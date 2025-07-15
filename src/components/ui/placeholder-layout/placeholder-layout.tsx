@@ -1,4 +1,4 @@
-import { useStars } from '@/hooks/useStars';
+import { useStars } from '@hooks/useStars';
 import styles from './placeholder-layout.module.css';
 import { JSX, ReactNode } from 'react';
 

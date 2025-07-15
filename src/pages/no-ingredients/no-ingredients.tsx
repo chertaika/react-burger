@@ -1,4 +1,4 @@
-import PlaceholderLayout from '@components/placeholder-layout/placeholder-layout';
+import PlaceholderLayout from '@components/ui/placeholder-layout/placeholder-layout';
 import styles from './no-ingredients.module.css';
 import { JSX } from 'react';
 

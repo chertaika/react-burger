@@ -2,7 +2,7 @@ import styles from './not-found.module.css';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import { routes } from '@utils/constants';
-import PlaceholderLayout from '@components/placeholder-layout/placeholder-layout';
+import PlaceholderLayout from '@components/ui/placeholder-layout/placeholder-layout';
 import { JSX } from 'react';
 
 const NotFound = (): JSX.Element => (

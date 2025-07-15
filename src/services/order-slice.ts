@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createOrderRequest } from '@utils/api';
+import { createOrderRequest, getOrderByNumberRequest } from '@utils/api';
 import { getBun, getFillings } from '@store/burger-constructor-slice';
 import { errorMessages } from '@utils/constants';
 import {
 	TErrorResponseData,
 	TOrderResponse,
 	TOrderSliceState,
+	TOrdersResponse,
 } from '@utils/types';
 import { RootState } from '@store/hooks';
 
@@ -23,8 +24,9 @@ export const createOrder = createAsyncThunk<
 		const fillings = getFillings(state);
 
 		const ingredients = [
-			...(bun ? [bun._id, bun._id] : []),
+			...(bun ? [bun._id] : []),
 			...fillings.map((filling) => filling._id),
+			...(bun ? [bun._id] : []),
 		];
 
 		return await createOrderRequest(ingredients);
@@ -36,9 +38,23 @@ export const createOrder = createAsyncThunk<
 	}
 });
 
+export const getOrderByNumber = createAsyncThunk<
+	TOrdersResponse,
+	string,
+	{ rejectValue: string }
+>('order/getOrderByNumber', async (orderNumber, { rejectWithValue }) => {
+	try {
+		return await getOrderByNumberRequest(orderNumber);
+	} catch (error) {
+		console.log(error);
+		return rejectWithValue(
+			(error as TErrorResponseData).message || errorMessages.GET_ORDER
+		);
+	}
+});
+
 const initialState: TOrderSliceState = {
-	orderNumber: null,
-	orderName: null,
+	order: null,
 	isLoading: false,
 	errorMessage: null,
 };
@@ -47,14 +63,13 @@ const orderSlice = createSlice({
 	name: 'order',
 	initialState: initialState,
 	selectors: {
-		getOrderNumber: (state) => state.orderNumber,
+		getOrder: (state) => state.order,
 		getOrderLoading: (state) => state.isLoading,
 		getOrderErrorMessage: (state) => state.errorMessage,
 	},
 	reducers: {
 		resetOrder(state) {
-			state.orderNumber = initialState.orderNumber;
-			state.orderName = initialState.orderName;
+			state.order = initialState.order;
 		},
 		clearError(state) {
 			state.errorMessage = null;
@@ -68,10 +83,21 @@ const orderSlice = createSlice({
 			})
 			.addCase(createOrder.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.orderNumber = action.payload.order.number;
-				state.orderName = action.payload.name;
+				state.order = action.payload.order;
 			})
 			.addCase(createOrder.rejected, (state, action) => {
+				state.isLoading = false;
+				state.errorMessage = action.payload;
+			})
+			.addCase(getOrderByNumber.pending, (state) => {
+				state.isLoading = true;
+				state.errorMessage = null;
+			})
+			.addCase(getOrderByNumber.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.order = action.payload.orders[0];
+			})
+			.addCase(getOrderByNumber.rejected, (state, action) => {
 				state.isLoading = false;
 				state.errorMessage = action.payload;
 			});
@@ -79,6 +105,6 @@ const orderSlice = createSlice({
 });
 
 export const { resetOrder, clearError } = orderSlice.actions;
-export const { getOrderNumber, getOrderLoading, getOrderErrorMessage } =
+export const { getOrderLoading, getOrderErrorMessage, getOrder } =
 	orderSlice.selectors;
 export default orderSlice.reducer;

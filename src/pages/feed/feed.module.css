@@ -1,0 +1,16 @@
+.feed {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--offset-base-size) * 5);
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 1240px;
+	margin-inline: auto;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: minmax(auto, 600px) 1fr;
+	gap: calc(var(--offset-base-size) * 14);
+	max-height: calc(100vh - 246px);
+}

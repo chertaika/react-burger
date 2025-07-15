@@ -24,6 +24,13 @@ export type TOrderResponse = {
 	success: boolean;
 };
 
+export type TOrdersResponse = {
+	orders: Array<TOrder>;
+	success: boolean;
+	total?: number;
+	totalToday?: number;
+};
+
 export type TUserWithTokenResponse = TUserResponse & {
 	accessToken: string;
 	refreshToken: string;

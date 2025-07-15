@@ -1,4 +1,10 @@
-import { TBun, TFillings, TIngredients, TUser } from '@utils/types';
+import { TBun, TFillings, TIngredients, TOrder, TUser } from '@utils/types';
+
+export enum WebsocketStatus {
+	CONNECTING = 'CONNECTING...',
+	ONLINE = 'ONLINE',
+	OFFLINE = 'OFFLINE',
+}
 
 export type TUserLoadingStates = {
 	register: boolean;
@@ -22,10 +28,9 @@ export type TBurgerConstructorSliceState = {
 };
 
 export type TOrderSliceState = {
-	orderNumber: number | null;
-	orderName: string | null;
 	isLoading: boolean;
 	errorMessage: TErrorMessage;
+	order: TOrder | null;
 };
 
 export type TUserSliceState = {
@@ -33,4 +38,12 @@ export type TUserSliceState = {
 	isAuthChecked: boolean;
 	errorMessage: TErrorMessage;
 	loadingStates: TUserLoadingStates;
+};
+
+export type TOrdersSliceState = {
+	status: WebsocketStatus;
+	error: string | null;
+	orders: Array<TOrder> | null;
+	total: number;
+	totalToday: number;
 };
