@@ -2,9 +2,9 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { api } from '@utils/constants';
 import {
 	TErrorResponseData,
-	TIngredients,
 	TIngredientsResponse,
 	TOrderResponse,
+	TOrdersResponse,
 	TResetPassword,
 	TResponse,
 	TUser,
@@ -28,7 +28,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use((config) => {
 	const token = localStorage.getItem('accessToken');
-	config.headers.Authorization = `Bearer ${token}`;
+	if (token) config.headers.Authorization = `Bearer ${token}`;
 	return config;
 });
 
@@ -43,23 +43,10 @@ $api.interceptors.response.use(
 		if (errorMessage === 'jwt expired' && !originalRequest._retry) {
 			originalRequest._retry = true;
 
-			try {
-				const {
-					data: { accessToken, refreshToken },
-				} = await $api.post<TUserWithTokenResponse>(api.REFRESH_TOKEN_URL, {
-					token: localStorage.getItem('refreshToken'),
-				});
+			const { accessToken } = await updateAuthTokens();
 
-				localStorage.setItem('accessToken', accessToken.split('Bearer ')[1]);
-				localStorage.setItem('refreshToken', refreshToken);
-
-				originalRequest.headers.Authorization = accessToken;
-				return $api(originalRequest);
-			} catch (refreshError) {
-				localStorage.removeItem('accessToken');
-				localStorage.removeItem('refreshToken');
-				return Promise.reject('Сессия истекла. Войдите снова.');
-			}
+			originalRequest.headers.Authorization = accessToken;
+			return $api(originalRequest);
 		}
 
 		const serverStatus = error.response?.data?.status || error.status;
@@ -70,12 +57,36 @@ $api.interceptors.response.use(
 	}
 );
 
+export const updateAuthTokens = async () => {
+	try {
+		const {
+			data: { accessToken, refreshToken },
+		} = await $api.post<TUserWithTokenResponse>(api.REFRESH_TOKEN_URL, {
+			token: localStorage.getItem('refreshToken'),
+		});
+
+		localStorage.setItem('accessToken', accessToken.split('Bearer ')[1]);
+		localStorage.setItem('refreshToken', refreshToken);
+
+		return { accessToken, refreshToken };
+	} catch (refreshError) {
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
+		return Promise.reject('Сессия истекла. Войдите снова.');
+	}
+};
+
 export const apiGetInitialData = (): Promise<TIngredientsResponse> =>
 	$api.get(api.INGREDIENTS_URL);
 
 export const createOrderRequest = (
-	ingredients: TIngredients
+	ingredients: Array<string>
 ): Promise<TOrderResponse> => $api.post(api.CREATE_ORDER_URL, { ingredients });
+
+export const getOrderByNumberRequest = (
+	orderNumber: string
+): Promise<TOrdersResponse> =>
+	$api.get(`${api.CREATE_ORDER_URL}/${orderNumber}`);
 
 export const apiGetUser = (): Promise<TUserResponse> => $api.get(api.USER_URL);
 

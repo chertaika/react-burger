@@ -1,21 +1,19 @@
-import { useEffect, JSX } from 'react';
+import { JSX, useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '@components/app-header/app-header';
 import Preloader from '@components/preloader/preloader';
 import ErrorBanner from '@components/error-banner/error-banner';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	getIngredients,
 	getIngredientsError,
 	getIngredientsLoading,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/ingredients-slice
 } from '@store/ingredients-slice';
 import {
+	Location,
 	Route,
 	Routes,
 	useLocation,
 	useNavigate,
-	Location,
 } from 'react-router-dom';
 import Login from '@pages/auth/login';
 import Registration from '@pages/auth/registration';
@@ -27,20 +25,23 @@ import Ingredient from '@pages/ingredient/ingredient';
 import IngredientDetails from '@components/burger-ingredients/ingredient-details/ingredient-details';
 import Modal from '@components/modal/modal';
 import NotFound from '@pages/not-found/not-found';
+import Feed from '@pages/feed/feed';
 import { routes } from '@utils/constants';
 import Home from '@pages/home/home';
-import UnderDevelopment from '@components/under-development/under-development';
 import ProtectedRoute from '@components/protected-route/protected-route';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { checkUserAuth } from '@store/user-slice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import OrderInfo from '@components/orders-list/order-info/order-info';
+import Order from '@pages/order/order';
+import UserOrders from '@components/profile/user-orders/user-orders';
 
 export const App = (): JSX.Element => {
-	const dispatch = useDispatch();
-	const isLoading: boolean = useSelector(getIngredientsLoading);
-	const errorMessage: string = useSelector(getIngredientsError);
+	const dispatch = useAppDispatch();
+	const isLoading = useAppSelector(getIngredientsLoading);
+	const errorMessage = useAppSelector(getIngredientsError);
 
 	useEffect(() => {
-		dispatch(checkUserAuth(dispatch));
+		dispatch(checkUserAuth());
 		dispatch(getIngredients());
 	}, [dispatch]);
 
@@ -106,13 +107,19 @@ export const App = (): JSX.Element => {
 							</ProtectedRoute>
 						}>
 						<Route index element={<ProfileSettings />} />
-						<Route
-							path={routes.PROFILE_ORDERS}
-							element={<UnderDevelopment />}
-						/>
+						<Route path={routes.USER_ORDERS} element={<UserOrders />} />
 					</Route>
+					<Route
+						path={routes.USER_ORDER}
+						element={
+							<ProtectedRoute>
+								<Order />
+							</ProtectedRoute>
+						}
+					/>
 					<Route path={routes.INGREDIENT} element={<Ingredient />} />
-					<Route path={routes.FEED} element={<UnderDevelopment />} />
+					<Route path={routes.FEED} element={<Feed />} />
+					<Route path={routes.FEED_ITEM} element={<Order />} />
 					<Route path='*' element={<NotFound />} />
 				</Routes>
 
@@ -123,6 +130,23 @@ export const App = (): JSX.Element => {
 							element={
 								<Modal onClose={handleModalClose} title={'Детали ингредиента'}>
 									<IngredientDetails />
+								</Modal>
+							}
+						/>
+						<Route
+							path={routes.FEED_ITEM}
+							element={
+								<Modal onClose={handleModalClose}>
+									<OrderInfo />
+								</Modal>
+							}
+						/>
+
+						<Route
+							path={routes.USER_ORDER}
+							element={
+								<Modal onClose={handleModalClose}>
+									<OrderInfo />
 								</Modal>
 							}
 						/>

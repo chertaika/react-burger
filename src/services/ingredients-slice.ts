@@ -1,20 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiGetInitialData } from '@utils/api';
 import { errorMessages } from '@utils/constants';
+import {
+	TErrorResponseData,
+	TIngredients,
+	TIngredientSliceState,
+} from '@utils/types';
 
-export const getIngredients = createAsyncThunk(
-	'ingredients/getIngredients',
-	async (_, { rejectWithValue }) => {
-		try {
-			const response = await apiGetInitialData();
-			return response.data;
-		} catch (error) {
-			return rejectWithValue(error.message || errorMessages.GET_INGREDIENTS);
-		}
+export const getIngredients = createAsyncThunk<
+	TIngredients,
+	void,
+	{ rejectValue: string }
+>('ingredients/getIngredients', async (_, { rejectWithValue }) => {
+	try {
+		const response = await apiGetInitialData();
+		return response.data;
+	} catch (error) {
+		return rejectWithValue(
+			(error as TErrorResponseData).message || errorMessages.GET_INGREDIENTS
+		);
 	}
-);
+});
 
-const initialState = {
+const initialState: TIngredientSliceState = {
 	ingredients: [],
 	isLoading: true,
 	errorMessage: null,

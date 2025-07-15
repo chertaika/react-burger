@@ -1,0 +1,34 @@
+.container {
+	display: flex;
+	flex-direction: column;
+}
+
+.container h2 {
+	text-align: center;
+}
+
+.ingredients {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--offset-base-size) * 4);
+	width: 640px;
+	height: 312px;
+	overflow: auto;
+}
+
+.ingredient {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 16px;
+}
+
+.ingredient_count {
+	display: flex;
+	gap: calc(var(--offset-base-size) * 2);
+}
+
+.price {
+	display: flex;
+	justify-content: space-between;
+}

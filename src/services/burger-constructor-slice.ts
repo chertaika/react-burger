@@ -1,6 +1,13 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+	TBun,
+	TBurgerConstructorSliceState,
+	TFilling,
+	TIngredientsCount,
+} from '@utils/types';
+import { createAppSelector } from '@store/hooks';
 
-const initialState = {
+const initialState: TBurgerConstructorSliceState = {
 	bun: null,
 	fillings: [],
 };
@@ -13,35 +20,36 @@ const burgerConstructorSlice = createSlice({
 		getFillings: (state) => state.fillings,
 	},
 	reducers: {
-		addBun(state, action) {
+		addBun(state, action: PayloadAction<TBun>) {
 			state.bun = action.payload;
 		},
-		addFilling(state, action) {
+		addFilling(state, action: PayloadAction<TFilling>) {
 			state.fillings.push(action.payload);
 		},
-		removeFilling(state, action) {
+		removeFilling(state, action: PayloadAction<string>) {
 			state.fillings = state.fillings.filter(
 				(item) => item.uid !== action.payload
 			);
 		},
-		moveFilling(state, action) {
+		moveFilling(
+			state,
+			action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
+		) {
 			const { dragIndex, hoverIndex } = action.payload;
-			const newFillings = [...state.fillings];
-			const [movedItem] = newFillings.splice(dragIndex, 1);
-			newFillings.splice(hoverIndex, 0, movedItem);
-			state.fillings = newFillings;
+			const [movedItem] = state.fillings.splice(dragIndex, 1);
+			state.fillings.splice(hoverIndex, 0, movedItem);
 		},
 		resetConstructor: () => initialState,
 	},
 });
 
-export const getIngredientsCount = createSelector(
+export const getIngredientsCount = createAppSelector(
 	[
 		(state) => state.burgerConstructor.bun,
 		(state) => state.burgerConstructor.fillings,
 	],
 	(bun, fillings) => {
-		const counts = {};
+		const counts: TIngredientsCount = {};
 
 		if (bun) {
 			counts[bun._id] = 2;
@@ -55,7 +63,7 @@ export const getIngredientsCount = createSelector(
 	}
 );
 
-export const getTotalPrice = createSelector(
+export const getTotalPrice = createAppSelector(
 	[
 		(state) => state.burgerConstructor.bun,
 		(state) => state.burgerConstructor.fillings,

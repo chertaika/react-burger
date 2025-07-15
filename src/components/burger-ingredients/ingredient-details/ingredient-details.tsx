@@ -3,14 +3,12 @@ import { JSX, useState } from 'react';
 import Preloader from '@components/preloader/preloader';
 import imageError from '@images/no-photo.svg';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/ingredients-slice
 import { getAllIngredients } from '@store/ingredients-slice';
-import { TIngredients } from '@utils/types';
+import { useAppSelector } from '@store/hooks';
 
 const IngredientDetails = (): JSX.Element => {
 	const { id } = useParams();
-	const ingredients: TIngredients = useSelector(getAllIngredients);
+	const ingredients = useAppSelector(getAllIngredients);
 
 	const currentIngredient = ingredients.find(
 		(ingredient) => ingredient._id === id

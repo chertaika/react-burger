@@ -6,13 +6,14 @@
 	box-sizing: border-box;
 	width: 100%;
 	max-width: 1280px;
-	margin: calc(var(--offset-base-size) * 30) auto auto;
+	margin: calc(var(--offset-base-size) * 9) auto auto;
 	padding-inline: calc(var(--offset-base-size) * 5);
 }
 
 .nav {
 	width: 100%;
 	max-width: 320px;
+	margin-top: calc(var(--offset-base-size) * 21);
 }
 
 .nav ul {

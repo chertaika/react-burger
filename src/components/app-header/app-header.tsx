@@ -6,14 +6,13 @@ import {
 	Logo,
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { routes } from '@utils/constants';
-import { useSelector } from 'react-redux';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { getUserInfo } from '@store/user-slice';
+import { useAppSelector } from '@store/hooks';
 
 const AppHeader = (): JSX.Element => {
-	const user = useSelector(getUserInfo);
+	const user = useAppSelector(getUserInfo);
 	return (
 		<header className={styles.header}>
 			<nav className={`${styles.menu} p-4`}>
@@ -46,7 +45,9 @@ const AppHeader = (): JSX.Element => {
 					</NavLink>
 				</div>
 				<div className={styles.logo}>
-					<Logo />
+					<Link to={routes.HOME} className={styles.link}>
+						<Logo />
+					</Link>
 				</div>
 				<div className={styles.link_position_last}>
 					{user ? (

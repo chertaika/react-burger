@@ -1,11 +1,9 @@
 import { ReactNode } from 'react';
-import { useSelector } from 'react-redux';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 import { getIsAuthChecked, getUserInfo } from '@store/user-slice';
 import { Navigate, useLocation } from 'react-router-dom';
 import { routes } from '@utils/constants';
 import Preloader from '@components/preloader/preloader';
-import { TUser } from '@utils/types';
+import { useAppSelector } from '@store/hooks';
 
 type TProtectedRouteProps = {
 	forUnauthenticatedOnly?: boolean;
@@ -16,9 +14,9 @@ const ProtectedRoute = ({
 	forUnauthenticatedOnly = false,
 	children,
 }: TProtectedRouteProps): ReactNode => {
-	const user: TUser = useSelector(getUserInfo);
+	const user = useAppSelector(getUserInfo);
 	const location = useLocation();
-	const isUserAuthChecked: boolean = useSelector(getIsAuthChecked);
+	const isUserAuthChecked = useAppSelector(getIsAuthChecked);
 
 	if (!isUserAuthChecked) {
 		return <Preloader />;

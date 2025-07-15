@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
 	apiChangeUserInfo,
 	apiGetUser,
@@ -7,63 +7,74 @@ import {
 	apiRegisterUser,
 } from '@utils/api';
 import { errorMessages } from '@utils/constants';
+import { AppDispatch } from '@store/hooks';
+import {
+	TErrorResponseData,
+	TUser,
+	TUserSliceState,
+	TUserWithPassword,
+} from '@utils/types';
 
-export const checkUserAuth = createAsyncThunk(
-	'user/checkUserAuth',
-	async (_, { dispatch }) => {
-		if (localStorage.getItem('accessToken')) {
-			try {
-				const { user } = await apiGetUser();
-				dispatch(setUser(user));
-			} catch (error) {
-				console.log(error);
-			} finally {
-				dispatch(setIsAuthChecked(true));
-			}
-		} else {
+export const checkUserAuth = createAsyncThunk<
+	void,
+	void,
+	{ dispatch: AppDispatch }
+>('user/checkUserAuth', async (_, { dispatch }) => {
+	if (localStorage.getItem('accessToken')) {
+		try {
+			const { user } = await apiGetUser();
+			dispatch(setUser(user));
+		} catch (error) {
+			console.log(error);
+		} finally {
 			dispatch(setIsAuthChecked(true));
 		}
+	} else {
+		dispatch(setIsAuthChecked(true));
 	}
-);
+});
 
-export const register = createAsyncThunk(
-	'user/register',
-	async (userData, { rejectWithValue }) => {
-		try {
-			const { user, accessToken, refreshToken } =
-				await apiRegisterUser(userData);
-			localStorage.setItem('accessToken', accessToken.split('Bearer ')[1]);
-			localStorage.setItem('refreshToken', refreshToken);
-			return user;
-		} catch (error) {
-			const errorMessage =
-				error.status === 403
-					? 'Пользователь с таким email уже существует'
-					: error.message || errorMessages.REGISTER;
-			return rejectWithValue(errorMessage);
-		}
+export const register = createAsyncThunk<
+	TUser,
+	TUserWithPassword,
+	{ rejectValue: string }
+>('user/register', async (userData, { rejectWithValue }) => {
+	try {
+		const { user, accessToken, refreshToken } = await apiRegisterUser(userData);
+		localStorage.setItem('accessToken', accessToken.split('Bearer ')[1]);
+		localStorage.setItem('refreshToken', refreshToken);
+		return user;
+	} catch (err) {
+		const error = err as TErrorResponseData;
+		const errorMessage =
+			error.status === 403
+				? 'Пользователь с таким email уже существует'
+				: error.message || errorMessages.REGISTER;
+		return rejectWithValue(errorMessage);
 	}
-);
+});
 
-export const login = createAsyncThunk(
-	'user/login',
-	async (userData, { rejectWithValue }) => {
-		try {
-			const { user, accessToken, refreshToken } = await apiLogin(userData);
-			localStorage.setItem('accessToken', accessToken.split('Bearer ')[1]);
-			localStorage.setItem('refreshToken', refreshToken);
-			return user;
-		} catch (error) {
-			const errorMessage =
-				error.status === 401
-					? 'Неверный логин или пароль'
-					: error.message || errorMessages.LOGIN;
-			return rejectWithValue(errorMessage);
-		}
+export const login = createAsyncThunk<
+	TUser,
+	TUserWithPassword,
+	{ rejectValue: string }
+>('user/login', async (userData, { rejectWithValue }) => {
+	try {
+		const { user, accessToken, refreshToken } = await apiLogin(userData);
+		localStorage.setItem('accessToken', accessToken.split('Bearer ')[1]);
+		localStorage.setItem('refreshToken', refreshToken);
+		return user;
+	} catch (err) {
+		const error = err as TErrorResponseData;
+		const errorMessage =
+			error.status === 401
+				? 'Неверный логин или пароль'
+				: error.message || errorMessages.LOGIN;
+		return rejectWithValue(errorMessage);
 	}
-);
+});
 
-export const logout = createAsyncThunk(
+export const logout = createAsyncThunk<void, void, { rejectValue: string }>(
 	'user/logout',
 	async (_, { rejectWithValue }) => {
 		try {
@@ -71,24 +82,29 @@ export const logout = createAsyncThunk(
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 		} catch (error) {
-			return rejectWithValue(error.message);
+			return rejectWithValue(
+				(error as TErrorResponseData).message || errorMessages.LOGOUT
+			);
 		}
 	}
 );
 
-export const changeUserInfo = createAsyncThunk(
-	'user/changeUserInfo',
-	async (userInfo, { dispatch, rejectWithValue }) => {
-		try {
-			const { user } = await apiChangeUserInfo(userInfo);
-			dispatch(setUser(user));
-		} catch (error) {
-			return rejectWithValue(error.message || errorMessages.EDIT_USER);
-		}
+export const changeUserInfo = createAsyncThunk<
+	void,
+	TUserWithPassword,
+	{ rejectValue: string; dispatch: AppDispatch }
+>('user/changeUserInfo', async (userInfo, { dispatch, rejectWithValue }) => {
+	try {
+		const { user } = await apiChangeUserInfo(userInfo);
+		dispatch(setUser(user));
+	} catch (error) {
+		return rejectWithValue(
+			(error as TErrorResponseData).message || errorMessages.EDIT_USER
+		);
 	}
-);
+});
 
-const initialState = {
+const initialState: TUserSliceState = {
 	user: null,
 	isAuthChecked: false,
 	errorMessage: null,
@@ -111,13 +127,13 @@ const userSlice = createSlice({
 		getLoadingStatus: (state) => state.loadingStates,
 	},
 	reducers: {
-		setUser: (state, action) => {
+		setUser: (state, action: PayloadAction<TUser | null>) => {
 			state.user = action.payload;
 		},
-		setIsAuthChecked: (state, action) => {
+		setIsAuthChecked: (state, action: PayloadAction<boolean>) => {
 			state.isAuthChecked = action.payload;
 		},
-		clearError(state) {
+		clearError: (state) => {
 			state.errorMessage = null;
 		},
 	},

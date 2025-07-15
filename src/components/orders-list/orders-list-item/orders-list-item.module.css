@@ -1,0 +1,40 @@
+.order {
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	width: 100%;
+	padding: calc(var(--offset-base-size) * 6);
+	background-color: var(--background);
+	border-radius: calc(var(--offset-base-size) * 10);
+}
+
+.order_header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.order_details {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	width: 100%;
+}
+
+.ingredients {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.ingredient:not(:first-of-type) {
+	margin-left: -16px;
+}
+
+.price {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.success {
+	color: var(--colors-interface-success);
+}

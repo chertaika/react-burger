@@ -7,22 +7,21 @@ import {
 import { Link } from 'react-router-dom';
 import styles from './auth.module.css';
 import { EMAIL_REGEX, routes } from '@utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	clearError,
 	getLoadingStatus,
 	getUserError,
 	login,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/user-slice
 } from '@store/user-slice';
 import useFormValidator from '@/hooks/useFormValidator';
 import { TUserLoadingStates, TUserWithPassword } from '@utils/types';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 
 const Login = (): JSX.Element => {
-	const dispatch = useDispatch();
-	const userError: string = useSelector(getUserError);
+	const dispatch = useAppDispatch();
+	const userError = useAppSelector(getUserError);
 	const { login: isLoading }: TUserLoadingStates =
-		useSelector(getLoadingStatus);
+		useAppSelector(getLoadingStatus);
 
 	const { inputValues, errorMessages, isValid, handleChange } =
 		useFormValidator<TUserWithPassword>({

@@ -2,13 +2,11 @@ import { useMemo, useRef, useState, UIEvent } from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsGroup from '@components/burger-ingredients/ingredients-group/ingredients-group.tsx';
-import { useSelector } from 'react-redux';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/burger-constructor-slice
 import { getIngredientsCount } from '@store/burger-constructor-slice';
-// @ts-expect-error: TS7016: Could not find a declaration file for module @store/ingredients-slice
 import { getAllIngredients } from '@store/ingredients-slice';
 import { ingredientTypeTranslations } from '@utils/constants';
-import { TIngredients, TIngredientsCount, TIngredientType } from '@utils/types';
+import { useAppSelector } from '@store/hooks';
+import { TIngredientType, TIngredients } from '@utils/types';
 
 type TRef = {
 	[key in TIngredientType]: HTMLElement | null;
@@ -17,8 +15,8 @@ type TRef = {
 type TGroupedIngredients = Record<TIngredientType, TIngredients>;
 
 const BurgerIngredients = () => {
-	const ingredientsCount: TIngredientsCount = useSelector(getIngredientsCount);
-	const ingredients: TIngredients = useSelector(getAllIngredients);
+	const ingredientsCount = useAppSelector(getIngredientsCount);
+	const ingredients = useAppSelector(getAllIngredients);
 
 	const [activeType, setActiveType] = useState<TIngredientType>(
 		(Object.keys(ingredientTypeTranslations) as Array<TIngredientType>)[0]

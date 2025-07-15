@@ -1,0 +1,11 @@
+.orders {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--offset-base-size) * 4);
+	box-sizing: border-box;
+	height: 100%;
+	margin: 0;
+	padding: 0 calc(var(--offset-base-size) * 2) 0 0;
+	overflow: auto;
+	list-style: none;
+}

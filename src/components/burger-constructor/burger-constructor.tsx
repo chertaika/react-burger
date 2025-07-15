@@ -1,34 +1,35 @@
 import styles from './burger-constructor.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	addBun,
 	addFilling,
 	getBun,
 	getFillings,
-	// @ts-expect-error: TS7016: Could not find a declaration file for module @store/burger-constructor-slice
 } from '@store/burger-constructor-slice';
 import noBunImage from '@images/no-bun.svg';
 import BurgerDraggedItem from '@components/burger-constructor/burger-dragged-item/burger-dragged-item';
 import { dragTypes } from '@utils/constants';
 import OrderCheckout from '@components/burger-constructor/order-checkout/order-checkout';
-import { TBun, TFillings, TIngredient } from '@utils/types';
 import { JSX } from 'react';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { TBun, TFilling, TIngredient } from '@utils/types';
 
 const BurgerConstructor = (): JSX.Element => {
-	const dispatch = useDispatch();
-	const fillings: TFillings = useSelector(getFillings);
-	const bun: TBun = useSelector(getBun);
+	const dispatch = useAppDispatch();
+	const fillings = useAppSelector(getFillings);
+	const bun = useAppSelector(getBun);
 
-	const isEmpty: boolean = !bun && fillings.length === 0;
+	const isEmpty = !bun && fillings.length === 0;
 
 	const [{ isHover }, dropTarget] = useDrop({
 		accept: dragTypes.INGREDIENT,
 		drop(ingredient: TIngredient) {
 			ingredient.type === 'bun'
-				? dispatch(addBun(ingredient))
-				: dispatch(addFilling({ ...ingredient, uid: crypto.randomUUID() }));
+				? dispatch(addBun(ingredient as TBun))
+				: dispatch(
+						addFilling({ ...ingredient, uid: crypto.randomUUID() } as TFilling)
+					);
 		},
 		collect: (monitor) => ({
 			isHover: monitor.isOver(),
@@ -56,7 +57,7 @@ const BurgerConstructor = (): JSX.Element => {
 								type='top'
 								isLocked={true}
 								text={bun ? `${bun?.name} (верх)` : 'Добавь булку 🥯'}
-								price={bun?.price}
+								price={bun?.price || 0}
 								thumbnail={bun ? bun?.image : noBunImage}
 							/>
 						</div>
@@ -77,7 +78,7 @@ const BurgerConstructor = (): JSX.Element => {
 								type='bottom'
 								isLocked={true}
 								text={bun ? `${bun?.name} (низ)` : 'Добавь булку 🥯'}
-								price={bun?.price}
+								price={bun?.price || 0}
 								thumbnail={bun ? bun?.image : noBunImage}
 								{...(bun && { extraClass: styles.bottom_ingredient })}
 							/>
