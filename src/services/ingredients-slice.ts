@@ -22,13 +22,13 @@ export const getIngredients = createAsyncThunk<
 	}
 });
 
-const initialState: TIngredientSliceState = {
+export const initialState: TIngredientSliceState = {
 	ingredients: [],
 	isLoading: true,
 	errorMessage: null,
 };
 
-const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice({
 	name: 'ingredients',
 	initialState: initialState,
 	selectors: {

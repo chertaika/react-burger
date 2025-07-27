@@ -53,13 +53,13 @@ export const getOrderByNumber = createAsyncThunk<
 	}
 });
 
-const initialState: TOrderSliceState = {
+export const initialState: TOrderSliceState = {
 	order: null,
 	isLoading: false,
 	errorMessage: null,
 };
 
-const orderSlice = createSlice({
+export const orderSlice = createSlice({
 	name: 'order',
 	initialState: initialState,
 	selectors: {

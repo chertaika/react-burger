@@ -1,4 +1,4 @@
-import { TUser } from '@utils/types';
+import { TIngredients, TUser } from '@utils/types';
 
 type TTimestamps = {
 	readonly createdAt: string;
@@ -8,7 +8,7 @@ type TTimestamps = {
 export type TOrderStatus = 'pending' | 'created' | 'done';
 
 export type TOrder = TTimestamps & {
-	ingredients: Array<string>;
+	ingredients: TIngredients;
 	name: string;
 	number: number;
 	owner: TUser & TTimestamps;

@@ -7,12 +7,12 @@ import {
 } from '@utils/types';
 import { createAppSelector } from '@store/hooks';
 
-const initialState: TBurgerConstructorSliceState = {
+export const initialState: TBurgerConstructorSliceState = {
 	bun: null,
 	fillings: [],
 };
 
-const burgerConstructorSlice = createSlice({
+export const burgerConstructorSlice = createSlice({
 	name: 'burgerConstructor',
 	initialState: initialState,
 	selectors: {
