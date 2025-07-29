@@ -8,8 +8,10 @@ type TOrderDetailsProps = {
 
 const OrderDetails = ({ orderNumber }: TOrderDetailsProps): JSX.Element => {
 	return (
-		<>
-			<span className={`${styles.title} text text_type_digits-large mt-4 mb-8`}>
+		<div className={styles.container} data-testid={'order-details'}>
+			<span
+				className={`${styles.title} text text_type_digits-large mt-4 mb-8`}
+				data-testid={'order-number'}>
 				{orderNumber}
 			</span>
 			<span className={'text text_type_main-medium'}>идентификатор заказа</span>
@@ -25,7 +27,7 @@ const OrderDetails = ({ orderNumber }: TOrderDetailsProps): JSX.Element => {
 				}>
 				Дождитесь готовности на орбитальной станции
 			</span>
-		</>
+		</div>
 	);
 };
 

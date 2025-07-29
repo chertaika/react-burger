@@ -34,11 +34,13 @@ const Modal = ({ title, children, onClose }: IModalProps): JSX.Element => {
 			<div className={styles.content}>
 				<div className={styles.header}>
 					<h2 className={'text text_type_main-large'}>{title}</h2>
-					<CloseIcon
-						type={'primary'}
-						onClick={closeModal}
-						className={styles.button}
-					/>
+					<div data-testid={'close-modal-button'}>
+						<CloseIcon
+							type={'primary'}
+							onClick={closeModal}
+							className={styles.button}
+						/>
+					</div>
 				</div>
 				{children}
 			</div>

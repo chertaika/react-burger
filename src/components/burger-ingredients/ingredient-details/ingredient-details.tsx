@@ -26,7 +26,7 @@ const IngredientDetails = (): JSX.Element => {
 	};
 
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} data-testid={'ingredient-details-modal'}>
 			<div className={styles.image_container}>
 				{isImageLoading && (
 					<div className={styles.image_loader}>
@@ -41,7 +41,9 @@ const IngredientDetails = (): JSX.Element => {
 					onError={handleImageError}
 				/>
 			</div>
-			<span className={`${styles.title} text text_type_main-medium mt-4 mb-8`}>
+			<span
+				className={`${styles.title} text text_type_main-medium mt-4 mb-8`}
+				data-testid={'ingredient-name'}>
 				{currentIngredient?.name}
 			</span>
 			<ul className={styles.nutrition}>

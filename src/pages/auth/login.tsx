@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, JSX } from 'react';
+import { FormEvent, JSX, useEffect } from 'react';
 import {
 	Button,
 	EmailInput,
@@ -52,6 +52,7 @@ const Login = (): JSX.Element => {
 					required
 					autoComplete={'email'}
 					errorText={errorMessages.email}
+					data-testid={'email-input'}
 				/>
 				<PasswordInput
 					name={'password'}
@@ -61,11 +62,13 @@ const Login = (): JSX.Element => {
 					minLength={6}
 					autoComplete={'current-password'}
 					errorText={errorMessages.password}
+					data-testid={'password-input'}
 				/>
 				<Button
 					type={'primary'}
 					htmlType={'submit'}
-					disabled={!isValid || isLoading}>
+					disabled={!isValid || isLoading}
+					data-testid={'login-button'}>
 					{isLoading ? <span className={'loading'}>Вход...</span> : 'Войти'}
 				</Button>
 				<span
