@@ -5,15 +5,13 @@ import {
 	WebsocketStatus,
 } from '@utils/types';
 
-const initialState: TOrdersSliceState = {
+export const initialState: TOrdersSliceState = {
 	status: WebsocketStatus.OFFLINE,
 	error: null,
 	orders: null,
-	total: 0,
-	totalToday: 0,
 };
 
-const userOrdersSlice = createSlice({
+export const userOrdersSlice = createSlice({
 	name: 'userOrders',
 	initialState,
 	selectors: {
@@ -25,12 +23,11 @@ const userOrdersSlice = createSlice({
 		userOrdersConnect: (_, action: PayloadAction<string>) => {
 			console.log('url', action.payload);
 		},
-		userOrdersDisconnect: (state) => {
-			state.status = WebsocketStatus.OFFLINE;
-			state.orders = null;
-			state.total = 0;
-			state.totalToday = 0;
-		},
+		userOrdersDisconnect: (state) => ({
+			...initialState,
+			status: WebsocketStatus.OFFLINE,
+			error: state.error,
+		}),
 		userOrdersConnecting: (state) => {
 			state.status = WebsocketStatus.CONNECTING;
 		},
@@ -38,12 +35,11 @@ const userOrdersSlice = createSlice({
 			state.status = WebsocketStatus.ONLINE;
 			state.error = null;
 		},
-		userOrdersClose: (state) => {
-			state.status = WebsocketStatus.OFFLINE;
-			state.orders = null;
-			state.total = 0;
-			state.totalToday = 0;
-		},
+		userOrdersClose: (state) => ({
+			...initialState,
+			status: WebsocketStatus.OFFLINE,
+			error: state.error,
+		}),
 		userOrdersError: (state, action: PayloadAction<string>) => {
 			state.error = action.payload;
 		},

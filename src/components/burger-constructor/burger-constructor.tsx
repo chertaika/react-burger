@@ -40,7 +40,8 @@ const BurgerConstructor = (): JSX.Element => {
 		<section className={`${styles.burger_constructor} ml-4 mt-3`}>
 			<div
 				className={`${styles.ingredients_container} ${isEmpty ? styles.empty : ''} ${isHover ? styles.hovered : ''}`}
-				ref={dropTarget}>
+				ref={dropTarget}
+				data-testid='burger-constructor'>
 				{isEmpty ? (
 					<>
 						<p className={'text text_type_main-medium'}>
@@ -52,7 +53,7 @@ const BurgerConstructor = (): JSX.Element => {
 					</>
 				) : (
 					<>
-						<div className={'ml-8 mb-4'}>
+						<div className={'ml-8 mb-4'} data-testid={`burger-top-${bun?._id}`}>
 							<ConstructorElement
 								type='top'
 								isLocked={true}
@@ -73,7 +74,9 @@ const BurgerConstructor = (): JSX.Element => {
 								</p>
 							)}
 						</div>
-						<div className={'ml-8 mt-4'}>
+						<div
+							className={'ml-8 mt-4'}
+							data-testid={`burger-bottom-${bun?._id}`}>
 							<ConstructorElement
 								type='bottom'
 								isLocked={true}

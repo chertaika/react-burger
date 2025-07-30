@@ -5,7 +5,7 @@ import {
 	WebsocketStatus,
 } from '@utils/types';
 
-const initialState: TOrdersSliceState = {
+export const initialState: TOrdersSliceState = {
 	status: WebsocketStatus.OFFLINE,
 	error: null,
 	orders: null,
@@ -13,7 +13,7 @@ const initialState: TOrdersSliceState = {
 	totalToday: 0,
 };
 
-const allOrdersSlice = createSlice({
+export const allOrdersSlice = createSlice({
 	name: 'allOrders',
 	initialState,
 	selectors: {
@@ -27,12 +27,11 @@ const allOrdersSlice = createSlice({
 		allOrdersConnect: (_, action: PayloadAction<string>) => {
 			console.log('url', action.payload);
 		},
-		allOrdersDisconnect: (state) => {
-			state.status = WebsocketStatus.OFFLINE;
-			state.orders = null;
-			state.total = 0;
-			state.totalToday = 0;
-		},
+		allOrdersDisconnect: (state) => ({
+			...initialState,
+			status: WebsocketStatus.OFFLINE,
+			error: state.error,
+		}),
 		allOrdersConnecting: (state) => {
 			state.status = WebsocketStatus.CONNECTING;
 		},
@@ -40,12 +39,11 @@ const allOrdersSlice = createSlice({
 			state.status = WebsocketStatus.ONLINE;
 			state.error = null;
 		},
-		allOrdersClose: (state) => {
-			state.status = WebsocketStatus.OFFLINE;
-			state.orders = null;
-			state.total = 0;
-			state.totalToday = 0;
-		},
+		allOrdersClose: (state) => ({
+			...initialState,
+			status: WebsocketStatus.OFFLINE,
+			error: state.error,
+		}),
 		allOrdersError: (state, action: PayloadAction<string>) => {
 			state.error = action.payload;
 		},

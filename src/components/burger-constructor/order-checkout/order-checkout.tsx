@@ -71,7 +71,8 @@ const OrderCheckout = ({
 					type='primary'
 					size='large'
 					onClick={handleSendOrder}
-					disabled={isDisabledButton || isLoading}>
+					disabled={isDisabledButton || isLoading}
+					data-testid='order-button'>
 					{isLoading ? (
 						<span className={'loading'}>Отправляется...</span>
 					) : (

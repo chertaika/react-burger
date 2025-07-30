@@ -86,7 +86,8 @@ const BurgerDraggedItem = ({
 			className={`${styles.ingredient} ${isDragging ? styles.draggable : ''}`}
 			key={item.uid}
 			data-handler-id={handlerId}
-			ref={ref}>
+			ref={ref}
+			data-testid={`burger-filling-${item?._id}`}>
 			<DragIcon type='primary' />
 			<ConstructorElement
 				text={item.name}

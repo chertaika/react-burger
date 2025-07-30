@@ -104,7 +104,7 @@ export const changeUserInfo = createAsyncThunk<
 	}
 });
 
-const initialState: TUserSliceState = {
+export const initialState: TUserSliceState = {
 	user: null,
 	isAuthChecked: false,
 	errorMessage: null,
@@ -117,7 +117,7 @@ const initialState: TUserSliceState = {
 	},
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({
 	name: 'user',
 	initialState: initialState,
 	selectors: {

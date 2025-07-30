@@ -31,11 +31,13 @@ const IngredientsItem = ({
 	return (
 		<li
 			className={`${styles.ingredient} ${isDragging ? styles.dragging : ''}`}
-			ref={dragRef}>
+			ref={dragRef}
+			data-testid={`ingredient-${ingredient?.type}-${ingredient?._id}`}>
 			<Link
 				to={`${routes.INGREDIENTS}/${ingredient?._id}`}
 				state={{ background: location }}
-				className={`${styles.link} text_color_primary`}>
+				className={`${styles.link} text_color_primary`}
+				data-testid={ingredient?._id}>
 				{count > 0 && <Counter count={count} size={'default'} />}
 				<img
 					className={`${styles.image} pr-4 pl-4`}
@@ -46,7 +48,9 @@ const IngredientsItem = ({
 					{ingredient.price}
 					<CurrencyIcon type={'primary'} />
 				</div>
-				<p className={`${styles.title} text text_type_main-default`}>
+				<p
+					className={`${styles.title} text text_type_main-default`}
+					data-testid={'ingredient-name'}>
 					{ingredient.name}
 				</p>
 			</Link>

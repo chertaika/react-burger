@@ -44,6 +44,6 @@ export type TOrdersSliceState = {
 	status: WebsocketStatus;
 	error: string | null;
 	orders: Array<TOrder> | null;
-	total: number;
-	totalToday: number;
+	total?: number;
+	totalToday?: number;
 };
