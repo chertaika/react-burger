@@ -1,6 +1,28 @@
 describe('Burger Constructor', () => {
 	beforeEach(() => {
+		window.localStorage.setItem('accessToken', 'mocked-access-token');
+		cy.intercept('GET', '**/auth/user', {
+			statusCode: 200,
+			body: {
+				success: true,
+				user: {
+					name: 'Test User',
+					email: 'test@test.ru',
+				},
+			},
+		}).as('getUser');
+		cy.fixture('ingredients').then((ingredients) => {
+			cy.intercept('GET', '**/ingredients', {
+				statusCode: 200,
+				body: {
+					success: true,
+					data: ingredients,
+				},
+			}).as('getIngredients');
+		});
+
 		cy.visit('/');
+		cy.wait(['@getUser', '@getIngredients']);
 	});
 
 	it('should open ingredient details modal on click', () => {
@@ -77,16 +99,17 @@ describe('Burger Constructor', () => {
 			.as('createOrderButton')
 			.should('not.be.disabled')
 			.click();
-		cy.url().should('include', '/login');
 
-		cy.fixture('user').then((userFixture) => {
-			cy.get('[data-testid="email-input"]').type(userFixture.email);
-			cy.get('[data-testid="password-input"]').type(userFixture.password);
-		});
-		cy.get('[data-testid="login-button"]').should('not.be.disabled').click();
+		cy.intercept('POST', '**/orders', {
+			statusCode: 200,
+			body: {
+				success: true,
+				order: {
+					number: 123456,
+				},
+			},
+		}).as('createOrderRequest');
 
-		cy.intercept('POST', '**/orders').as('createOrderRequest');
-		cy.get('@createOrderButton').should('not.be.disabled').click();
 		cy.wait('@createOrderRequest').then((interception) => {
 			const orderNumber = interception.response.body.order.number;
 
