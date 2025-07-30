@@ -73,7 +73,6 @@ describe('Burger Constructor', () => {
 		cy.get('@filling').trigger('dragstart');
 		cy.get('@constructor').trigger('drop');
 
-		// Проверяем, что кнопка активна
 		cy.get('[data-testid="order-button"]')
 			.as('createOrderButton')
 			.should('not.be.disabled')
@@ -86,14 +85,18 @@ describe('Burger Constructor', () => {
 		});
 		cy.get('[data-testid="login-button"]').should('not.be.disabled').click();
 
-		cy.intercept('POST', '**/orders').as('createOrder');
+		cy.intercept('POST', '**/orders').as('createOrderRequest');
 		cy.get('@createOrderButton').should('not.be.disabled').click();
-		cy.wait('@createOrder');
+		cy.wait('@createOrderRequest').then((interception) => {
+			const orderNumber = interception.response.body.order.number;
 
-		cy.get('[data-testid="order-details"]').as('modal').should('exist');
-		cy.get('[data-testid="order-number"]').should('not.be.empty');
+			cy.get('[data-testid="order-details"]').as('modal').should('exist');
+			cy.get('[data-testid="order-number"]')
+				.invoke('text')
+				.should('eq', orderNumber.toString());
 
-		cy.get('[data-testid="close-modal-button"]').click();
-		cy.get('@modal').should('not.exist');
+			cy.get('[data-testid="close-modal-button"]').click();
+			cy.get('@modal').should('not.exist');
+		});
 	});
 });
